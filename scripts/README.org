@@ -73,5 +73,6 @@ p +
 
 ggsave('tky-2006-mean-gcc-rcc.pdf', width = 8, height = 2.5)
 #+END_SRC
+*** Figure 2 (phenovis CPM)
 ** TODO Section 3
 *** tky-2006-gcc-mean
