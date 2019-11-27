@@ -14,7 +14,7 @@ Rezende Alles, João L. D. Comba, Jean-Marc Vincent, Shin Nagai, and
 Lucas Mello Schnorr.
 
 The code snippets presented in this repository are written in R, and
-can be used to generate the figures from the paper. While some figures
+can be used to generate the Figures from the paper. While some Figures
 are embedded with no extra manipulation, others are annotated with the
 help of external tools to enrich the original paper's explanation.
 
