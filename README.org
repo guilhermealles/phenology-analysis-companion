@@ -90,7 +90,7 @@ In case you want to pull the histograms data afterwards (roughly 1GB):
 git lfs pull
 #+END_SRC
 
-** Datasets
+** Datasets Overview Description
 
 There are three datasets explored in the original paper, for which we
 provide pre-processed histograms. The datasets are detailed in the
@@ -103,6 +103,6 @@ following table.
 | AHS | Alice Holt         | United Kingdom | Deciduous Brodleaf  |        2272x1704 |        55139 |
 | MTK | Mt. Tsukuba        | Japan          | Mixed Forest        |        2272x1704 |        71875 |
 |-----+--------------------+----------------+---------------------+------------------+--------------|
-** Scripts
+** Scripts for re-creating the Figures
 The scripts needed to reproduce the Figures are located in the
 [[./scripts/]] directory from this repository.
