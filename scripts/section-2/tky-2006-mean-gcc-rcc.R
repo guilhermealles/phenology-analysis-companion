@@ -16,8 +16,8 @@ add_plot_metadata <- function (data) {
   select(-Time)
 }
 
-meanGcc <- read.csv('../../histograms/tky-2006-mean-gcc.csv');
-meanRcc <- read.csv('../../histograms/tky-2006-mean-rcc.csv') %>% select(MeanRcc)
+meanGcc <- read.csv('../../data/tky-2006-mean-gcc.csv');
+meanRcc <- read.csv('../../data/tky-2006-mean-rcc.csv') %>% select(MeanRcc)
 
 values <- cbind(meanGcc, meanRcc) %>% as.tibble %>%
   add_plot_metadata
