@@ -1,27 +1,3 @@
-# -*- coding: utf-8 -*-
-# -*- mode: org -*-
-
-#+TITLE: Companion Scripts
-#+AUTHOR: Alles et al.
-
-#+STARTUP: overview indent
-
-* Scripts
-:PROPERTIES:
-:header-args: :tangle-mode (identity #o755)
-:END:
-
-This directory contains all the scripts needed to reproduce the
-Figures shown in the paper *Measuring Phenology Uncertainty with Large
-Scale Image Processing*.
-
-** Section 2
-
-mode (identity #o755)
-
-*** mean-gcc-rcc
-
-#+BEGIN_SRC R :tangle section-2/tky-2006-mean-gcc-rcc.R
 #!/usr/local/bin/Rscript
 library(tidyverse)
 
@@ -75,4 +51,3 @@ p +
     geom_label(data=df.redLines, aes(x=X, y=0.5125, label = X), size=2.75)
 
 ggsave('tky-2006-mean-gcc-rcc.pdf', width = 8, height = 2.5)
-#+END_SRC
