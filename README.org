@@ -72,7 +72,7 @@ loaded via a namespace (and not attached):
 
 ** Clone this repository
 
-The =data= directory on this repository contains the histograms
+The [[./data/]] directory on this repository contains the histograms
 extracted from phenological images in the form of compressed CSV
 files. There are 3 histogram files, and their sizes vary from ~210MB
 to ~465MB.
@@ -105,4 +105,4 @@ following table.
 |-----+--------------------+----------------+---------------------+------------------+--------------|
 ** Scripts
 The scripts needed to reproduce the Figures are located in the
-=scripts= directory from this repository.
+[[./scripts/]] directory from this repository.
