@@ -23,7 +23,7 @@ corresponding image.
 
 ** Clone this repository
 
-The ~histograms~ directory in this repository contains the histograms
+The =histograms= directory in this repository contains the histograms
 extracted from phenological images in the form of compressed CSV
 files. There are 3 histogram files, and their sizes vary from ~210MB
 to ~465MB
