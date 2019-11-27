@@ -72,10 +72,23 @@ loaded via a namespace (and not attached):
 
 ** Clone this repository
 
-The =histograms= directory in this repository contains the histograms
+The =histograms= directory on this repository contains the histograms
 extracted from phenological images in the form of compressed CSV
 files. There are 3 histogram files, and their sizes vary from ~210MB
-to ~465MB
+to ~465MB.
+
+These files are tracked with git LFS. To clone the repository without
+histograms data:
+
+#+BEGIN_SRC sh
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/guilhermealles/phenology-analysis-companion.git
+#+END_SRC
+
+In case you want to pull the histograms data afterwards (roughly 1GB):
+
+#+BEGIN_SRC sh
+git lfs pull
+#+END_SRC
 
 ** Datasets
 
