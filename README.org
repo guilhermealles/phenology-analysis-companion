@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+# -*- mode: org -*-
+
+#+TITLE: Companion Dataset and Scripts
+#+AUTHOR: Alles et al.
+
+#+STARTUP: overview indent
+
+* Introduction
+
+This is the companion repository for the paper entitled *Measuring
+Phenology Uncertainty with Large Scale Image Processing*, by Guilherme
+Rezende Alles, João L. D. Comba, Jean-Marc Vincent, Shin Nagai, and
+Lucas Mello Schnorr.
+
+The code snippets presented in this repository are written in R, and
+can be used to generate the figures from the paper. While some figures
+are embedded with no extra manipulation, others are annotated with the
+help of external tools to enrich the original paper's explanation.
+
+The output from each of the R scripts is a pdf file with the
+corresponding image.
+
+** Clone this repository
+
+The ~histograms~ directory in this repository contains the histograms
+extracted from phenological images in the form of compressed CSV
+files. There are 3 histogram files, and their sizes vary from ~210MB
+to ~465MB
+
+** Datasets
+
+There are three datasets explored in the original paper, for which we
+provide pre-processed histograms. The datasets are detailed in the
+following table.
+
+|-----+--------------------+----------------+---------------------+------------------+--------------|
+| ID  | Dataset            | Location       | Vegetation Type     | Image Resolution | Images Count |
+|-----+--------------------+----------------+---------------------+------------------+--------------|
+| TKY | Takayama Flux Site | Japan          | Deciduous Broadleaf |        2272x1704 |        20561 |
+| AHS | Alice Holt         | United Kingdom | Deciduous Brodleaf  |        2272x1704 |        55139 |
+| MTK | Mt. Tsukuba        | Japan          | Mixed Forest        |        2272x1704 |        71875 |
+|-----+--------------------+----------------+---------------------+------------------+--------------|
