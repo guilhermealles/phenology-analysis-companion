@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
-#+TITLE: Companion Dataset and Scripts
+#+TITLE: Companion Material README
 #+AUTHOR: Alles et al.
 
 #+STARTUP: overview indent
