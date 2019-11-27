@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+# -*- mode: org -*-
+
+#+TITLE: Companion Scripts
+#+AUTHOR: Alles et al.
+
+#+STARTUP: overview indent
+
+* Scripts
+
+This directory contains all the scripts needed to reproduce the
+Figures shown in the paper *Measuring Phenology Uncertainty with Large
+Scale Image Processing*.
