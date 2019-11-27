@@ -15,6 +15,15 @@ This directory contains all the scripts needed to reproduce the
 Figures shown in the paper *Measuring Phenology Uncertainty with Large
 Scale Image Processing*.
 
+** Figures Overview
+
+
+| Section | Figure | Description      |
+|---------+--------+------------------|
+|       2 |      1 | Mean gcc and rcc |
+|       2 |      2 | PhenoVis CPM     |
+|---------+--------+------------------|
+
 ** Section 2
 *** Figure 1 (mean-gcc-rcc)
 
