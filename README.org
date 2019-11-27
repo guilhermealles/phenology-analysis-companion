@@ -90,3 +90,6 @@ following table.
 | AHS | Alice Holt         | United Kingdom | Deciduous Brodleaf  |        2272x1704 |        55139 |
 | MTK | Mt. Tsukuba        | Japan          | Mixed Forest        |        2272x1704 |        71875 |
 |-----+--------------------+----------------+---------------------+------------------+--------------|
+** Scripts
+The scripts needed to reproduce the Figures are located in the
+=scripts= directory from this repository.
