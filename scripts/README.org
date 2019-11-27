@@ -16,7 +16,7 @@ Figures shown in the paper *Measuring Phenology Uncertainty with Large
 Scale Image Processing*.
 
 ** Section 2
-*** mean-gcc-rcc
+*** Figure 1 (mean-gcc-rcc)
 
 #+BEGIN_SRC R :tangle section-2/tky-2006-mean-gcc-rcc.R
 #!/usr/local/bin/Rscript
