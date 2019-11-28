@@ -27,7 +27,7 @@ Scale Image Processing*.
 |       4 |      4 | CPM Representation                      | Pending |
 |       4 |      5 | CPMs with multiple metrics              | Done    |
 |       4 |      6 | CPM with the Gcc_Mean                   | Done    |
-|       4 |      7 | Hourly histograms                       | Pending |
+|       4 | 7(a,b) | Merged percentage maps                  | Done    |
 |       4 |      8 | Uncertainty level with CPM              | Pending |
 |---------+--------+-----------------------------------------+---------|
 |       5 |     10 | CPMs for the AHS dataset                | Pending |
