@@ -99,11 +99,18 @@ p <- values %>%
 
 df.redLines <- tribble(~X,50,165,295,345) %>% mutate(Y=1)
 
-p +
-    geom_vline(data=df.redLines, aes(xintercept=X), size=0.75, color="red") +
-    geom_label(data=df.redLines, aes(x=X, y=0.5125, label = X), size=2.75)
+p2 <- p +
+  geom_vline(
+    data=df.redLines,
+    aes(xintercept=X),
+    size=0.75,
+    color="red"
+  ) +
+  geom_label(
+    data=df.redLines, aes(x=X, y=0.5125, label = X), size=2.75
+  )
 
-ggsave('tky-2006-mean-gcc-rcc.pdf', width = 8, height = 2.5)
+ggsave('tky-2006-mean-gcc-rcc.pdf', plot = p2, width = 8, height = 2.5)
 #+END_SRC
 *** Figure 2 (phenovis CPM)
 ** TODO Section 3
