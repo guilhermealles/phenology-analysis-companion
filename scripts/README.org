@@ -18,11 +18,34 @@ Scale Image Processing*.
 ** Figures Overview
 
 
-| Section | Figure | Description      |
-|---------+--------+------------------|
-|       2 |      1 | Mean gcc and rcc |
-|       2 |      2 | PhenoVis CPM     |
-|---------+--------+------------------|
+| Section | Figure | Description                             | Status  |
+|---------+--------+-----------------------------------------+---------|
+|       2 |      1 | Mean gcc and rcc                        | Done    |
+|---------+--------+-----------------------------------------+---------|
+|       3 |      2 | PhenoVis CPM                            | Done    |
+|---------+--------+-----------------------------------------+---------|
+|       4 |      4 | CPM Representation                      | Pending |
+|       4 |      5 | CPMs with multiple metrics              | Pending |
+|       4 |      6 | CPM with the Gcc_Mean                   | Pending |
+|       4 |      7 | Hourly histograms                       | Pending |
+|       4 |      8 | Uncertainty level with CPM              | Pending |
+|---------+--------+-----------------------------------------+---------|
+|       5 |     10 | CPMs for the AHS dataset                | Pending |
+|       5 |     12 | MTK Weights                             | Pending |
+|       5 |     13 | Hourly CPMs for MTK                     | Pending |
+|       5 |     14 | Merged CPM for MTK                      | Pending |
+|       5 |     15 | Moving window weights                   | Pending |
+|       5 |     16 | Merged CPM with 3 days                  | Pending |
+|       5 |     17 | Averaged CPMs for multiple window sizes | Pending |
+|       5 |     18 | Weights for multi-year averaging        | Pending |
+|       5 |     19 | Merged CPM for multiple years           | Pending |
+|       5 |     20 | Weighted CPM with uncertainty level     | Pending |
+|       5 |     21 | Hourly CPMs for TKY-2011, day 145       | Pending |
+|       5 |     22 | Hourly CPMs for TKY-2011, day 324       | Pending |
+|       5 |     23 | Weighted CPM with uncertainty level     | Pending |
+|       5 |     24 | Histogram of Gcc values                 | Pending |
+|       5 |     25 | Hourly CPMs for TKY-2011, day 162       | Pending |
+|       5 |     26 | Performance analysis                    | Pending |
 
 ** Section 2
 *** Figure 1 (mean-gcc-rcc)
