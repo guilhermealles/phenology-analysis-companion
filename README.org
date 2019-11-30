@@ -26,13 +26,18 @@ This companion material was written in the R programming language, and
 all the scripts make heavy use of the [[https://www.tidyverse.org/][tidyverse]]. In order to reproduce
 the work contained in this repository, both environments should be
 installed. We also use the [[https://cran.r-project.org/web/packages/colorspace/vignettes/colorspace.html#installation][colorspace]] library for color palette
-manipulation.
+manipulation. The [[https://cran.r-project.org/web/packages/cowplot/index.html][cowplot]] library is used to combine =ggplot=
+objects, and the [[https://cran.r-project.org/web/packages/latex2exp/index.html][latex2exp]] is used to generate legends on some
+plots.
 
 This work was tested in the following R environment:
 
 #+BEGIN_SRC R :results output :exports both
 library(tidyverse)
 library(colorspace)
+library(cowplot)
+library(latex2exp)
+
 sessionInfo()
 #+END_SRC
 
@@ -53,9 +58,9 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] colorspace_1.3-2 forcats_0.3.0    stringr_1.3.1    dplyr_0.7.7     
- [5] purrr_0.2.5      readr_1.1.1      tidyr_0.8.1      tibble_1.4.2    
- [9] ggplot2_3.0.0    tidyverse_1.2.1 
+ [1] latex2exp_0.4.0  cowplot_0.9.4    colorspace_1.3-2 forcats_0.3.0   
+ [5] stringr_1.3.1    dplyr_0.7.7      purrr_0.2.5      readr_1.1.1     
+ [9] tidyr_0.8.1      tibble_1.4.2     ggplot2_3.0.0    tidyverse_1.2.1 
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.0       cellranger_1.1.0 pillar_1.3.0     compiler_3.5.1  
