@@ -22,13 +22,12 @@ The output from each of the R scripts is a pdf file with the
 corresponding image.
 
 ** Requirements
-This companion material was written in the R programming language, and
+This companion material is written in the R programming language, and
 all the scripts make heavy use of the [[https://www.tidyverse.org/][tidyverse]]. In order to reproduce
 the work contained in this repository, both environments should be
 installed. We also use the [[https://cran.r-project.org/web/packages/colorspace/vignettes/colorspace.html#installation][colorspace]] library for color palette
-manipulation. The [[https://cran.r-project.org/web/packages/cowplot/index.html][cowplot]] library is used to combine =ggplot=
-objects, and the [[https://cran.r-project.org/web/packages/latex2exp/index.html][latex2exp]] is used to generate legends on some
-plots.
+manipulation. The [[https://cran.r-project.org/web/packages/cowplot/index.html][cowplot]] library is used to combine =ggplot= objects,
+and the [[https://cran.r-project.org/web/packages/latex2exp/index.html][latex2exp]] is used to generate legends on some plots.
 
 This work was tested in the following R environment:
 
