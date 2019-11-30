@@ -1308,7 +1308,7 @@ p <- data %>%
 ggsave('./mtk-2016-merged.pdf', plot = p, width = 8, height = 2)
 #+END_SRC
 
-*** Figure 15 (multiday-weights-3-days.pdf)
+*** Figure 15 (multiday-weights-3-days)
 #+BEGIN_SRC R :tangle section-5/multiday-weights-3-days.R
 #!/usr/local/bin/Rscript
 library(tidyverse)
