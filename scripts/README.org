@@ -13,7 +13,8 @@
 
 This directory contains all the scripts needed to reproduce the
 Figures shown in the paper *Measuring Phenology Uncertainty with Large
-Scale Image Processing*.
+Scale Image Processing*. For all the scripts below, you may want to
+customize the path to ~Rscript~.
 
 ** Figures Overview
 
