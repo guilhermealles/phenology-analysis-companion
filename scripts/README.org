@@ -52,7 +52,7 @@ Scale Image Processing*.
 *** Figure 1 (mean-gcc-rcc)
 
 #+BEGIN_SRC R :tangle section-2/tky-2006-mean-gcc-rcc.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 add_plot_metadata <- function (data) {
@@ -117,7 +117,7 @@ ggsave('tky-2006-mean-gcc-rcc.pdf', plot = p2, width = 8, height = 2.5)
 *** Figure 2 (phenovis CPM)
 
 #+BEGIN_SRC R :tangle section-3/phenovis_cpm.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 DATAFILE <- "../../data/dc_TKY_y18_n_2015_grain100_masked.csv"
 
@@ -194,14 +194,14 @@ ggsave('./phenovis_cpm.pdf', plot = p, width = 7, height = 6)
 ** Section 4
 *** TODO Figure 4 (tky-2006-gcc-mean)
 #+BEGIN_SRC R :tangle section-4/tky-2006-gcc-mean.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 
 #+END_SRC
 
 *** Figure 5 (facets-hsv)
 
 #+BEGIN_SRC R :tangle section-4/facets-hsv.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(colorspace)
 library(tidyverse)
 
@@ -304,7 +304,7 @@ ggsave('./facets-hsv.pdf', plot=p, width=6.5, height= 2.5)
 *** Figure 6 (tky-2006-gcc_mean)
 
 #+BEGIN_SRC R :tangle section-4/tky-2006-gcc_mean.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -420,7 +420,7 @@ The following script generates two figures, used as sugfigures in the
 paper.
 
 #+BEGIN_SRC R :tangle section-4/mtk-2016-day360.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -622,7 +622,7 @@ ggsave('./mtk-2016-day350-weighted.pdf', plot=p2, width=1, height=7)
 *** Figure 8 (mtk-2016-weighted-hsv-Q)
 
 #+BEGIN_SRC R :tangle section-4/mtk-2016-weighted-hsv-Q.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 library(cowplot)
@@ -877,7 +877,7 @@ ggsave('./mtk-2016-weighted-hsv-Q.pdf', plot=p, width=8, height=3)
 *** Figure 10 (ahs-analysis-noon)
 
 #+BEGIN_SRC R :tangle section-5/ahs-analysis-noon.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -1004,7 +1004,7 @@ ggsave('./ahs-analysis-noon.pdf', plot=p, width=8, height=6)
 *** Figure 12 (mtk-weights)
 
 #+BEGIN_SRC R :tangle section-5/mtk-weights.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 df.weights = tibble(
@@ -1037,7 +1037,7 @@ ggsave('./mtk-weights.pdf', plot = p, width = 4.5, height = 1.5)
 *** Figure 13 (mtk-2016-hourly-8-18)
 
 #+BEGIN_SRC R :tangle section-5/mtk-2016-hourly-8-18.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 library(tidyverse)
@@ -1162,7 +1162,7 @@ ggsave('./mtk-2016-hourly-8-18.pdf', plot = p, width = 8, height = 8)
 *** Figure 14 (mtk-2016-merged)
 
 #+BEGIN_SRC R :tangle section-5/mtk-2016-merged.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -1320,7 +1320,7 @@ ggsave('./mtk-2016-merged.pdf', plot = p, width = 8, height = 2)
 
 *** Figure 15 (multiday-weights-3-days)
 #+BEGIN_SRC R :tangle section-5/multiday-weights-3-days.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 get_weight <- function(day, hour, group) {
@@ -1384,7 +1384,7 @@ ggsave('multiday-weights-3-days.pdf', plot=p, width=8, height=2)
 *** Figure 16 (mtk-2016-multiday-3-day-window)
 
 #+BEGIN_SRC R :tangle section-5/mtk-2016-multiday-3-day-window.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -1562,7 +1562,7 @@ ggsave('./mtk-2016-multiday-3-day-window.pdf', plot=p, width=8, height=2)
 #+END_SRC
 *** Figure 17 (mtk-2016-varying-window-sizes)
 #+BEGIN_SRC R :tangle section-5/mtk-2016-varying-window-sizes.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -1898,7 +1898,7 @@ ggsave('./mtk-2016-varying-window-sizes.pdf', plot=p, width=8, height=6)
 #+END_SRC
 *** Figure 18 (multiyear-weights)
 #+BEGIN_SRC R :tangle section-5/multiyear-weights.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 get_weight <- function(day, hour, group) {
@@ -1955,7 +1955,7 @@ ggsave('multiyear-weights.pdf', plot=p, width=8, height=2)
 #+END_SRC
 *** Figure 19 (mtk-2016-multiday-manyyears)
 #+BEGIN_SRC R :tangle section-5/mtk-2016-multiday-manyyears.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -2173,7 +2173,7 @@ ggsave('mtk-2016-multiday-manyyears.pdf', plot=p, width=8, height=8)
 #+END_SRC
 *** Figure 20 (tky-2011-weighted-hsv-Q)
 #+BEGIN_SRC R :tangle section-5/tky-2011-weighted-hsv-Q.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 library(cowplot)
@@ -2449,7 +2449,7 @@ ggsave('tky-2011-weighted-hsv-Q.pdf', plot=p, width=8, height=4)
 #+END_SRC
 *** Figure 21 (tky-2011-145-hourly)
 #+BEGIN_SRC R :tangle section-5/tky-2011-145-hourly.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -2573,7 +2573,7 @@ ggsave('tky-2011-145-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
 *** Figure 22 (tky-2011-324-hourly)
 #+BEGIN_SRC R :tangle section-5/tky-2011-324-hourly.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -2697,7 +2697,7 @@ ggsave('tky-2011-324-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
 *** Figure 23 (tky-2011-weighted-gcc-Q)
 #+BEGIN_SRC R :tangle section-5/tky-2011-weighted-gcc-Q.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 library(cowplot)
@@ -2973,7 +2973,7 @@ ggsave('tky-2011-weighted-gcc-Q.pdf', plot=p, width=8, height=4)
 #+END_SRC
 *** Figure 24 (tky-100-to-175-gcc-distribution)
 #+BEGIN_SRC R :tangle section-5/tky-100-to-175-gcc-distribution.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 library(cowplot)
@@ -3112,7 +3112,7 @@ ggsave('tky-100-to-175-gcc-distribution.pdf', plot=p, width=6, height=3)
 #+END_SRC
 *** Figure 25 (tky-2011-162-gcc-hourly)
 #+BEGIN_SRC R :tangle section-5/tky-2011-162-gcc-hourly.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 
@@ -3234,7 +3234,7 @@ ggsave('tky-2011-162-gcc-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
 *** Figure 26 (performance-analysis)
 #+BEGIN_SRC R :tangle section-5/performance-analysis.R
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 

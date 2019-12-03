@@ -1,1 +1,1 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript

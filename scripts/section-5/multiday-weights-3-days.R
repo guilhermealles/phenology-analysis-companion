@@ -1,4 +1,4 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 get_weight <- function(day, hour, group) {

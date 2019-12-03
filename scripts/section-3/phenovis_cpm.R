@@ -1,4 +1,4 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 DATAFILE <- "../../data/dc_TKY_y18_n_2015_grain100_masked.csv"
 

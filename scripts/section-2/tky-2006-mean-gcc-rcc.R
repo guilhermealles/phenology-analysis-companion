@@ -1,4 +1,4 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 library(tidyverse)
 
 add_plot_metadata <- function (data) {
