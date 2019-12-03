@@ -48,7 +48,6 @@ Scale Image Processing*.
 |       5 |     26 | Performance analysis                    | Done    |
 |---------+--------+-----------------------------------------+---------|
 
-
 ** Section 2
 *** Figure 1 (mean-gcc-rcc)
 
@@ -74,7 +73,7 @@ add_plot_metadata <- function (data) {
 meanGcc <- read.csv('../../data/tky-2006-mean-gcc.csv');
 meanRcc <- read.csv('../../data/tky-2006-mean-rcc.csv') %>% select(MeanRcc)
 
-values <- cbind(meanGcc, meanRcc) %>% as.tibble %>%
+values <- cbind(meanGcc, meanRcc) %>% as_tibble %>%
   add_plot_metadata
 
 p <- values %>%
@@ -1499,7 +1498,7 @@ skeleton <- tibble(
 plot.data <- spread_data %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
-  as.tibble %>%
+  as_tibble %>%
   mutate(Weight = get_weight(Day, Hour, Group)) %>%
   gather(
     HSV_Bin,
@@ -1751,7 +1750,7 @@ generate_data_with_skeleton <- function (
     spread_data %>%
       slice(skeleton %>% pull(Index)) %>%
       cbind(skeleton) %>%
-      as.tibble %>%
+      as_tibble %>%
       mutate(Weight = get_weight_fun(Day, Hour, Group)) %>%
       gather(
         HSV_Bin,
@@ -2076,31 +2075,31 @@ year.2012 <- years_list[['2012']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2013 <- years_list[['2013']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2014 <- years_list[['2014']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2015 <- years_list[['2015']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2016 <- years_list[['2016']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 data_for_plot <- rbind(
   year.2012,

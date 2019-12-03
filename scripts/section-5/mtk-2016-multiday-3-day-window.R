@@ -112,7 +112,7 @@ skeleton <- tibble(
 plot.data <- spread_data %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
-  as.tibble %>%
+  as_tibble %>%
   mutate(Weight = get_weight(Day, Hour, Group)) %>%
   gather(
     HSV_Bin,

@@ -19,7 +19,7 @@ add_plot_metadata <- function (data) {
 meanGcc <- read.csv('../../data/tky-2006-mean-gcc.csv');
 meanRcc <- read.csv('../../data/tky-2006-mean-rcc.csv') %>% select(MeanRcc)
 
-values <- cbind(meanGcc, meanRcc) %>% as.tibble %>%
+values <- cbind(meanGcc, meanRcc) %>% as_tibble %>%
   add_plot_metadata
 
 p <- values %>%

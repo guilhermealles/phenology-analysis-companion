@@ -186,7 +186,7 @@ generate_data_with_skeleton <- function (
     spread_data %>%
       slice(skeleton %>% pull(Index)) %>%
       cbind(skeleton) %>%
-      as.tibble %>%
+      as_tibble %>%
       mutate(Weight = get_weight_fun(Day, Hour, Group)) %>%
       gather(
         HSV_Bin,

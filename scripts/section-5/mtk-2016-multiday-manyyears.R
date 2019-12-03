@@ -118,31 +118,31 @@ year.2012 <- years_list[['2012']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2013 <- years_list[['2013']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2014 <- years_list[['2014']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2015 <- years_list[['2015']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 year.2016 <- years_list[['2016']] %>%
   slice(skeleton %>% pull(Index)) %>%
   cbind(skeleton) %>%
   select(Index, Group, everything()) %>%
-  as.tibble
+  as_tibble
 
 data_for_plot <- rbind(
   year.2012,
