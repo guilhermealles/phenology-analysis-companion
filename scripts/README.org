@@ -19,35 +19,35 @@ customize the path to ~Rscript~.
 ** Figures Overview
 
 
-| Section | Figure | Description                             | Status  |
-|---------+--------+-----------------------------------------+---------|
-|       2 |      1 | Mean gcc and rcc                        | Done    |
-|---------+--------+-----------------------------------------+---------|
-|       3 |      2 | PhenoVis CPM                            | Done    |
-|---------+--------+-----------------------------------------+---------|
-|       4 |      4 | CPM Representation                      | Pending |
-|       4 |      5 | CPMs with multiple metrics              | Done    |
-|       4 |      6 | CPM with the Gcc_Mean                   | Done    |
-|       4 | 7(a,b) | Merged percentage maps                  | Done    |
-|       4 |      8 | Uncertainty level with CPM              | Done    |
-|---------+--------+-----------------------------------------+---------|
-|       5 |     10 | CPMs for the AHS dataset                | Done    |
-|       5 |     12 | MTK Weights                             | Done    |
-|       5 |     13 | Hourly CPMs for MTK                     | Done    |
-|       5 |     14 | Merged CPM for MTK                      | Done    |
-|       5 |     15 | Moving window weights                   | Done    |
-|       5 |     16 | Merged CPM with 3 days                  | Done    |
-|       5 |     17 | Averaged CPMs for multiple window sizes | Done    |
-|       5 |     18 | Weights for multi-year averaging        | Done    |
-|       5 |     19 | Merged CPM for multiple years           | Done    |
-|       5 |     20 | Weighted CPM with uncertainty level     | Done    |
-|       5 |     21 | Hourly CPMs for TKY-2011, day 145       | Done    |
-|       5 |     22 | Hourly CPMs for TKY-2011, day 324       | Done    |
-|       5 |     23 | Weighted CPM with uncertainty level     | Done    |
-|       5 |     24 | Histogram of Gcc values                 | Done    |
-|       5 |     25 | Hourly CPMs for TKY-2011, day 162       | Done    |
-|       5 |     26 | Performance analysis                    | Done    |
-|---------+--------+-----------------------------------------+---------|
+| Section | Figure | Description                             |
+|---------+--------+-----------------------------------------|
+|       2 |      1 | Mean gcc and rcc                        |
+|---------+--------+-----------------------------------------|
+|       3 |      2 | PhenoVis CPM                            |
+|---------+--------+-----------------------------------------|
+|       4 |      4 | CPM Representation                      |
+|       4 |      5 | CPMs with multiple metrics              |
+|       4 |      6 | CPM with the Gcc_Mean                   |
+|       4 | 7(a,b) | Merged percentage maps                  |
+|       4 |      8 | Uncertainty level with CPM              |
+|---------+--------+-----------------------------------------|
+|       5 |     10 | CPMs for the AHS dataset                |
+|       5 |     12 | MTK Weights                             |
+|       5 |     13 | Hourly CPMs for MTK                     |
+|       5 |     14 | Merged CPM for MTK                      |
+|       5 |     15 | Moving window weights                   |
+|       5 |     16 | Merged CPM with 3 days                  |
+|       5 |     17 | Averaged CPMs for multiple window sizes |
+|       5 |     18 | Weights for multi-year averaging        |
+|       5 |     19 | Merged CPM for multiple years           |
+|       5 |     20 | Weighted CPM with uncertainty level     |
+|       5 |     21 | Hourly CPMs for TKY-2011, day 145       |
+|       5 |     22 | Hourly CPMs for TKY-2011, day 324       |
+|       5 |     23 | Weighted CPM with uncertainty level     |
+|       5 |     24 | Histogram of Gcc values                 |
+|       5 |     25 | Hourly CPMs for TKY-2011, day 162       |
+|       5 |     26 | Performance analysis                    |
+|---------+--------+-----------------------------------------|
 
 ** Section 2
 *** Figure 1 (mean-gcc-rcc)
