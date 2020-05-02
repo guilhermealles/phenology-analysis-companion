@@ -8,7 +8,7 @@
 
 * Scripts
 :PROPERTIES:
-:header-args: :tangle-mode (identity #o755)
+:header-args: :session :tangle-mode (identity #o755)
 :END:
 
 This directory contains all the scripts needed to reproduce the
@@ -19,40 +19,37 @@ customize the path to ~Rscript~.
 ** Figures Overview
 
 
-| Section | Figure | Description                             |
-|---------+--------+-----------------------------------------|
-|       2 |      1 | Mean gcc and rcc                        |
-|---------+--------+-----------------------------------------|
-|       3 |      2 | PhenoVis CPM                            |
-|---------+--------+-----------------------------------------|
-|       4 |      4 | CPM Representation                      |
-|       4 |      5 | CPMs with multiple metrics              |
-|       4 |      6 | CPM with the Gcc_Mean                   |
-|       4 | 7(a,b) | Merged percentage maps                  |
-|       4 |      8 | Uncertainty level with CPM              |
-|---------+--------+-----------------------------------------|
-|       5 |     10 | CPMs for the AHS dataset                |
-|       5 |     12 | MTK Weights                             |
-|       5 |     13 | Hourly CPMs for MTK                     |
-|       5 |     14 | Merged CPM for MTK                      |
-|       5 |     15 | Moving window weights                   |
-|       5 |     16 | Merged CPM with 3 days                  |
-|       5 |     17 | Averaged CPMs for multiple window sizes |
-|       5 |     18 | Weights for multi-year averaging        |
-|       5 |     19 | Merged CPM for multiple years           |
-|       5 |     20 | Weighted CPM with uncertainty level     |
-|       5 |     21 | Hourly CPMs for TKY-2011, day 145       |
-|       5 |     22 | Hourly CPMs for TKY-2011, day 324       |
-|       5 |     23 | Weighted CPM with uncertainty level     |
-|       5 |     24 | Histogram of Gcc values                 |
-|       5 |     25 | Hourly CPMs for TKY-2011, day 162       |
-|       5 |     26 | Performance analysis                    |
-|---------+--------+-----------------------------------------|
+| Section | Figure | Description                             | Script path                                            |
+|---------+--------+-----------------------------------------+--------------------------------------------------------|
+|       1 |     1a | Mean gcc and rcc                        | [[section-1/tky-2006-mean-gcc-rcc.R]]                      |
+|       1 |     1b | PhenoVis CPM                            | [[section-1/phenovis_cpm.R]]                               |
+|---------+--------+-----------------------------------------+--------------------------------------------------------|
+|       2 |     2a | CPM Representation                      | [[section-2/tky-2006-gcc-mean.R]]                          |
+|       2 |      3 | CPMs with multiple metrics              | [[section-2/facets-hsv.R]]                                 |
+|       2 |      4 | CPM with the Gcc_Mean                   | [[section-2/tky-2006-gcc_mean.R]]                          |
+|       2 | 5(a,b) | Merged percentage maps                  | [[section-2/mtk-2016-day360.R]]                            |
+|       2 |      6 | Averaged CPMs for multiple window sizes | [[section-2/mtk-2016-varying-window-sizes.R]]              |
+|       2 |      7 | Uncertainty level with CPM              | [[section-2/mtk-2016-weighted-hsv-Q.R]]                    |
+|---------+--------+-----------------------------------------+--------------------------------------------------------|
+|       3 |      9 | CPMs for the AHS dataset                | [[section-3/ahs-analysis-noon.R]]                          |
+|       3 |    10a | MTK Weights                             | [[section-3/mtk-weights.R]]                                |
+|       3 |    10b | Weights for multi-year averaging        | [[section-3/multiyear-weights.R]]                          |
+|       3 |     11 | Hourly CPMs for MTK                     | [[section-3/mtk-2016-hourly-8-18.R]]                       |
+|       3 |     12 | Merged CPM for MTK                      | [[section-3/mtk-2016-weighted-hsv-h_mode_merged_with_Q.R]] |
+|       3 |     13 | Merged CPM for multiple years           | [[section-3/mtk-2016-multiday-manyyears.R]]                |
+|       3 |     14 | Weighted CPM with uncertainty level     | [[section-3/tky-2011-weighted-hsv-Q.R]]                    |
+|       3 |    15a | Hourly CPMs for TKY-2011, day 145       | [[section-3/tky-2011-145-hourly.R]]                        |
+|       3 |    15b | Hourly CPMs for TKY-2011, day 324       | [[section-3/tky-2011-324-hourly.R]]                        |
+|       3 |     16 | Weighted CPM with uncertainty level     | [[section-3/tky-2011-weighted-gcc-Q.R]]                    |
+|       3 |    17a | Histogram of Gcc values                 | [[section-3/tky-100-to-175-gcc-distribution.R]]            |
+|       3 |    17b | Hourly CPMs for TKY-2011, day 162       | [[section-3/tky-2011-162-gcc-hourly.R]]                    |
+|       3 |     18 | Performance analysis                    | [[section-3/performance-analysis.R]]                       |
+|---------+--------+-----------------------------------------+--------------------------------------------------------|
 
-** Section 2
-*** Figure 1 (mean-gcc-rcc)
+** Section 1
+*** Figure 1a (mean-gcc-rcc)
 
-#+BEGIN_SRC R :tangle section-2/tky-2006-mean-gcc-rcc.R
+#+BEGIN_SRC R :tangle section-1/tky-2006-mean-gcc-rcc.R
 #!/usr/bin/Rscript
 library(tidyverse)
 
@@ -93,31 +90,26 @@ p <- values %>%
   theme(
     plot.margin = unit(c(0,0,0,0), "cm"),
     legend.spacing = unit(0, "mm"),
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank()
-  )
+    legend.position = c(0.96, 0.25),
+    legend.box = "horizontal",
+    legend.background = element_rect(size=0.1, linetype="solid", color="black"),
+    legend.margin = margin(0,0,0,0),
+    legend.title = element_blank(),
+  ) +
+    ylim(0,0.6)
 
 df.redLines <- tribble(~X,50,165,295,345) %>% mutate(Y=1)
 
 p2 <- p +
-  geom_vline(
-    data=df.redLines,
-    aes(xintercept=X),
-    size=0.75,
-    color="red"
-  ) +
-  geom_label(
-    data=df.redLines, aes(x=X, y=0.5125, label = X), size=2.75
-  )
+    geom_vline(data=df.redLines, aes(xintercept=X), size=0.75, color="red") +
+    geom_label(data=df.redLines, aes(x=X, y=0.0325, label = X), size=2.75)
 
 ggsave('tky-2006-mean-gcc-rcc.pdf', plot = p2, width = 8, height = 2.5)
 #+END_SRC
-** Section 3
-*** Figure 2 (phenovis CPM)
 
-#+BEGIN_SRC R :tangle section-3/phenovis_cpm.R
+*** Figure 1b (phenovis CPM) 
+
+#+BEGIN_SRC R :tangle section-1/phenovis_cpm.R
 #!/usr/bin/Rscript
 library(tidyverse)
 DATAFILE <- "../../data/dc_TKY_y18_n_2015_grain100_masked.csv"
@@ -156,45 +148,39 @@ p <- data %>%
   mutate(Y.min = (Y.max - value/sum(value))) %>%
   ungroup %>%
   ggplot(aes(fill=as.factor(variable))) +
-    geom_rect(
-      aes(
-        xmin=sequence,
-        xmax=sequence+1,
-        ymin=Y.min,
-        ymax=Y.max
-      )
-    ) +
-    ylim(0,NA) +
-    theme_bw() +
-    scale_fill_manual(values=palette) +
-    guides(
-      fill = guide_legend(
-        title = expression(g[cc]),
-        title.position = "top",
-        ncol = 1
-      )
-    ) +
-    xlab("DOY") +
-    coord_flip() +
-    scale_x_reverse(expand=c(0,0)) +
-    scale_y_continuous(expand=c(0,0)) +
-    theme_bw(base_size=12) +
-    theme(
-      plot.margin = unit(c(0,0,0,0), "cm"),
-      legend.spacing = unit(1, "mm"),
-      panel.grid = element_blank(),
-      legend.box.spacing = unit(0, "pt"),
-      legend.box.margin = margin(0,0,0,0)
+  geom_rect(
+    aes(xmin=sequence, xmax=sequence+1, ymin=Y.min, ymax=Y.max)
+  ) +
+  scale_fill_manual(values=palette) +
+  guides(
+    fill = guide_legend(
+      title = expression(g[cc]),
+      title.position = "top",
+      ncol = 2,
+      keywidth=unit(1, "mm"),
+      keyheight=unit(1.7, "mm")
     )
+  ) +
+  xlab("Day of the year") +
+  ylab("Histogram bins") +
+  #coord_flip() +
+  scale_x_continuous(expand=c(0,0)) +
+  scale_y_continuous(expand=c(0,0)) +
+  theme_bw(base_size=6) +
+  theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    panel.grid = element_blank(),
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0)
+  )
 
-ggsave('./phenovis_cpm.pdf', plot = p, width = 7, height = 6)
+ggsave('./phenovis_cpm.pdf', plot = p, width = 2.5, height = 1)
 #+END_SRC
 
-#+RESULTS:
-
-** Section 4
-*** Figure 4 (tky-2006-gcc-mean)
-#+BEGIN_SRC R :tangle section-4/tky-2006-gcc-mean.R
+** Section 2
+*** Figure 2a (tky-2006-gcc-mean)
+#+BEGIN_SRC R :tangle section-2/tky-2006-gcc-mean.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -299,8 +285,9 @@ partial_plot <- data %>%
     geom_rect(
       aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
     ) +
-    get_theme(base_size = 12) +
-    xlab('DOY')
+    get_theme(base_size = 22) +
+    xlab("DOY") +
+    ylab("Histogram bins")
 
 df.rl <- tribble(~X, 90, 130, 220, 300, 340) %>%
   mutate(Y=1200000)
@@ -312,10 +299,9 @@ p <- partial_plot +
 ggsave('./tky-2006-gcc-mean.pdf', plot=p, width=12, height=4)
   
 #+END_SRC
+*** Figure 3 (facets-hsv)
 
-*** Figure 5 (facets-hsv)
-
-#+BEGIN_SRC R :tangle section-4/facets-hsv.R
+#+BEGIN_SRC R :tangle section-2/facets-hsv.R
 #!/usr/bin/Rscript
 library(colorspace)
 library(tidyverse)
@@ -416,9 +402,8 @@ p <- data %>%
 ggsave('./facets-hsv.pdf', plot=p, width=6.5, height= 2.5)
 #+END_SRC
 
-*** Figure 6 (tky-2006-gcc_mean)
-
-#+BEGIN_SRC R :tangle section-4/tky-2006-gcc_mean.R
+*** Figure 4 (tky-2006-gcc_mean)
+#+BEGIN_SRC R :tangle section-2/tky-2006-gcc_mean.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -528,13 +513,13 @@ p <- data %>%
     facet_grid(~Style)
 
 ggsave('./tky-2006-gcc_mean.pdf', plot=p, width=12, height=2)
-
 #+END_SRC
-*** Figure 7 (merged-cpms)
+
+*** Figure 5 (merged-cpms)
 The following script generates two figures, used as sugfigures in the
 paper.
 
-#+BEGIN_SRC R :tangle section-4/mtk-2016-day360.R
+#+BEGIN_SRC R :tangle section-2/mtk-2016-day360.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -734,949 +719,9 @@ p2 <- weighted_map %>%
 
 ggsave('./mtk-2016-day350-weighted.pdf', plot=p2, width=1, height=7)
 #+END_SRC
-*** Figure 8 (mtk-2016-weighted-hsv-Q)
 
-#+BEGIN_SRC R :tangle section-4/mtk-2016-weighted-hsv-Q.R
-#!/usr/bin/Rscript
-library(tidyverse)
-library(colorspace)
-library(cowplot)
-
-get_col_types <- function() {
-  cols(
-    Dataset = col_character(),
-    Camera_ID = col_character(),
-    Year = col_integer(),
-    Day = col_integer(),
-    Hour = col_integer(),
-    Minute = col_integer(),
-    Metric_Type = col_character(),
-    Considered_Pixels = col_integer(),
-    HSV_Bin = col_integer(),
-    HSV_H = col_double(),
-    HSV_SMean = col_double(),
-    HSV_VMean = col_double(),
-    HSV_SMode = col_double(),
-    HSV_VMode = col_double(),
-    Gcc_Bin = col_integer(),
-    Gcc_Value = col_double(),
-    Gcc_Mean_R = col_double(),
-    Gcc_Mean_G = col_double(),
-    Gcc_Mean_B = col_double()
-  )
-}
-
-get_theme <- function(base_size = 14) {
-  theme_bw(base_size = base_size) +
-  theme(
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(0, "mm"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-}
-
-df.weights <- tibble(
-  Hour = c(9, 10, 11, 12, 13, 14, 15),
-  Weight = c(0.05, 0.05, 0.1, 0.3, 0.3, 0.15, 0.05)
-)
-
-relevant_hours <- df.weights %>% filter(Weight != 0) %>% pull(Hour)
-
-hourly_data <- read_csv(
-  '../../data/mtk.csv.gz',
-  col_types = get_col_types()
-) %>%
-  filter(Year == 2016) %>%
-  filter(Metric_Type == 'HSV') %>% 
-  select(-contains('gcc')) %>%
-  filter(Hour %in% relevant_hours) %>%
-  group_by(Year, Day, Hour, HSV_Bin) %>%
-  slice(1) %>%
-  ungroup %>%
-  left_join(df.weights, by=c('Hour'))
-
-
-weighted_data <- hourly_data %>%
-  mutate(HSV_H = Weight * HSV_H) %>%
-  mutate(HSV_SMean = Weight * HSV_SMean) %>%
-  mutate(HSV_VMean = Weight * HSV_VMean) %>%
-  mutate(HSV_SMode = Weight * HSV_SMode) %>%
-  mutate(HSV_VMode = Weight * HSV_VMode) %>%
-  group_by(Day, HSV_Bin, Considered_Pixels) %>%
-  summarize(
-    HSV_H = as.integer(sum(HSV_H)),
-    HSV_SMean = sum(HSV_SMean, na.rm = TRUE),
-    HSV_VMean = sum(HSV_VMean, na.rm = TRUE),
-    HSV_SMode = sum(HSV_SMode, na.rm = TRUE),
-    HSV_VMode = sum(HSV_VMode, na.rm = TRUE)
-  ) %>%
-  ungroup
-
-hourly_histograms <- hourly_data %>%
-  select(Year, Day, Hour, Metric_Type, HSV_Bin, HSV_H) %>%
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin
-    ),
-    Bin_Value = case_when(
-      Metric_Type == 'HSV' ~ HSV_H
-    )
-  ) %>%
-  select(-HSV_Bin, -HSV_H)
-
-weighted_histogram <- weighted_data %>%
-  mutate(Year = 2016) %>%
-  mutate(Metric_Type = 'HSV') %>%
-  select(Year, Day, Metric_Type, HSV_Bin, HSV_H) %>%
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin
-    ),
-    Bin_Value = case_when(
-      Metric_Type == 'HSV' ~ HSV_H
-    )
-  ) %>%
-  select(-HSV_Bin, -HSV_H)
-
-a <- hourly_histograms %>%
-  select(Year, Day, Hour, Metric_Type, Bin, Bin_Value)
-b <- weighted_histogram %>%
-  select(Year, Day, Metric_Type, Bin, Bin_Value)
-
-a <- a %>% filter(Day %in% b$Day)
-b <- b %>% filter(Day %in% a$Day)
-
-df.EMD <- a %>%
-  left_join(b, by=c('Year', 'Day', 'Metric_Type', 'Bin')) %>%
-  rename(
-    P = Bin_Value.x,
-    Q = Bin_Value.y
-  ) %>%
-  group_by(Year, Day, Hour, Metric_Type) %>%
-  mutate(`P_i-Q_i` = lag(lead(P-Q))) %>%
-  mutate(`EMD_i` = ifelse(is.na(`P_i-Q_i`), 0, `P_i-Q_i`)) %>%
-  mutate(`EMD_i` = cumsum(`EMD_i`)) %>%
-  summarize(Distance = sum(abs(`EMD_i`))) %>%
-  ungroup %>%
-  arrange(Year, Day, Metric_Type)
-
-df.EMD.weighted <- df.EMD %>%
-  left_join(df.weights, by=c('Hour')) %>%
-  mutate(Weighted_Distance = Distance * Weight) %>%
-  group_by(Year, Day, Metric_Type) %>%
-  summarize(Q = sum(Weighted_Distance))
-
-uncertainty_by_style <- df.EMD.weighted %>%
-  mutate(
-    Q = case_when(
-      Metric_Type == 'Gcc' ~ Q/100,
-      Metric_Type == 'HSV' ~ Q/360
-    )
-  )
-
-hsv_weighted <- weighted_data %>%
-  mutate(Year = 2016) %>%
-  mutate(Metric_Type = 'HSV') %>%
-  filter(Year == 2016) %>%
-  filter(Metric_Type == 'HSV')
-
-hsv_cpm_for_plot <- hsv_weighted %>%
-  # Compute the color codes
-  mutate(
-    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
-    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
-    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
-    #Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
-  ) %>% 
-  select(
-    -HSV_SMean, -HSV_VMean,
-    -HSV_SMode, -HSV_VMode,
-    #-Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
-  ) %>%
-  # Extract the bin and bin value information
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin
-      #Metric_Type == 'Gcc' ~ Gcc_Bin
-    ),
-    Bin_Value = as.integer(case_when(
-      Metric_Type == 'HSV' ~ HSV_H
-      #Metric_Type == 'Gcc' ~ Gcc_Value
-    ))
-  ) %>%
-  select(-HSV_Bin, -HSV_H) %>%
-  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
-  # Make it tidy
-  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
-  mutate(Style = gsub('Color.Code.', '', Style)) %>%
-  # Remove useless combinations
-  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
-  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
-  # Create the key
-  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
-  mutate(Key = factor(Key, levels=Key)) %>%
-  # Sort the bins
-  arrange(Style, Year, Day, Bin) %>%
-  # Calculate the cumsums
-  group_by(Style, Year, Day) %>%
-  arrange(Bin) %>%
-  filter(Bin_Value != 0) %>%
-  mutate(
-    Y.min = cumsum(Bin_Value) - Bin_Value,
-    Y.max = cumsum(Bin_Value)
-  ) %>%
-  ungroup %>%
-  arrange(Style, Year, Day, Bin)
-
-palette <- hsv_cpm_for_plot %>% pull(Color)
-names(palette) <- hsv_cpm_for_plot %>% pull(Key)
-
-hsv_cpm_plot <- hsv_cpm_for_plot %>%
-  filter(Style == 'H') %>%
-  ggplot() +
-    scale_fill_manual(values=palette) +
-    geom_rect(
-      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
-    ) +
-    get_theme(base_size = 12) +
-    theme(
-      plot.margin = unit(c(0,0,0,0), 'mm'),
-    )
-    scale_x_continuous(
-      name = 'DOY (2016)',
-      breaks = c(0, 50, 100, 150, 200, 250, 300, 350)
-    )
-
-quality_plot <- uncertainty_by_style %>%
-  filter(Year == 2016) %>%
-  filter(Metric_Type == 'HSV') %>%
-  ungroup %>%
-  mutate(Q = Q/max(Q)) %>%
-  ggplot(aes(x = Day, y = Q)) +
-    geom_col(width = 1) +
-    theme_bw() +
-    theme(
-      plot.margin = unit(c(1,0,0,0), 'mm'),
-      panel.grid = element_blank(),
-      legend.position = 'none',
-      legend.spacing = unit(0, 'mm'),
-      legend.box.spacing = unit(0, 'pt'),
-      legend.box.margin = margin(0,0,0,0),
-      axis.title.x = element_blank(),
-      axis.text.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_text(size=10),
-    ) +
-    ylab("Uncert.\nLevel")
-
-p <- plot_grid(
-  quality_plot,
-  hsv_cpm_plot, 
-  nrow=2,
-  ncol = 1,
-  align='vh',
-  rel_heights=c(1, 3)
-)
-
-ggsave('./mtk-2016-weighted-hsv-Q.pdf', plot=p, width=8, height=3)
-#+END_SRC
-** Section 5
-*** Figure 10 (ahs-analysis-noon)
-
-#+BEGIN_SRC R :tangle section-5/ahs-analysis-noon.R
-#!/usr/bin/Rscript
-library(tidyverse)
-library(colorspace)
-
-get_col_types <- function() {
-  cols(
-    Dataset = col_character(),
-    Camera_ID = col_character(),
-    Year = col_integer(),
-    Day = col_integer(),
-    Hour = col_integer(),
-    Minute = col_integer(),
-    Metric_Type = col_character(),
-    Considered_Pixels = col_integer(),
-    HSV_Bin = col_integer(),
-    HSV_H = col_double(),
-    HSV_SMean = col_double(),
-    HSV_VMean = col_double(),
-    HSV_SMode = col_double(),
-    HSV_VMode = col_double(),
-    Gcc_Bin = col_integer(),
-    Gcc_Value = col_double(),
-    Gcc_Mean_R = col_double(),
-    Gcc_Mean_G = col_double(),
-    Gcc_Mean_B = col_double()
-  )
-}
-
-get_theme <- function(base_size = 14) {
-  theme_bw(base_size = base_size) +
-  theme(
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(0, "mm"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-}
-
-data <- read_csv(
-  '../../data/ahs.csv.gz',
-  col_types = get_col_types()
-) %>%
-  filter(Hour == 12) %>%
-  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
-  slice(1) %>%
-  ungroup %>%
-  # Remove unnecessary columns
-  select(-Dataset, -Camera_ID, -Hour, -Minute, -Considered_Pixels) %>%
-  # Compute the color codes
-  mutate(
-    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
-    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
-    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
-    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
-  ) %>% 
-  select(
-    -HSV_SMean, -HSV_VMean,
-    -HSV_SMode, -HSV_VMode,
-    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
-  ) %>%
-  # Extract the bin and bin value information
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin,
-      Metric_Type == 'Gcc' ~ Gcc_Bin
-    ),
-    Bin_Value = as.integer(case_when(
-      Metric_Type == 'HSV' ~ HSV_H,
-      Metric_Type == 'Gcc' ~ Gcc_Value
-    ))
-  ) %>%
-  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
-  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
-  # Make it tidy
-  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
-  mutate(Style = gsub('Color.Code.', '', Style)) %>%
-  # Remove useless combinations
-  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
-  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
-  # Create the key
-  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
-  mutate(Key = factor(Key, levels=Key)) %>%
-  # Sort the bins
-  arrange(Style, Year, Day, Bin) %>%
-  # Calculate the cumsums
-  group_by(Style, Year, Day) %>%
-  arrange(Bin) %>%
-  filter(Bin_Value != 0) %>%
-  mutate(
-    Y.min = cumsum(Bin_Value) - Bin_Value,
-    Y.max = cumsum(Bin_Value)
-  ) %>%
-  ungroup %>%
-  arrange(Style, Year, Day, Bin)
-
-palette <- data %>% pull(Color)
-names(palette) <- data %>% pull(Key)
-
-p <- data %>%
-  filter(Year != 2017) %>%
-  mutate(
-    Style = case_when(
-      Style == 'Gcc' ~ 'Gcc_Mean',
-      TRUE ~ paste0('HSV_', Style)
-    )
-  ) %>%
-  ggplot() +
-    scale_fill_manual(values=palette) +
-    geom_rect(
-      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
-    ) +
-    get_theme(base_size = 12) +
-    scale_x_continuous(name = 'DOY') +
-    facet_grid(Year~Style)
-
-ggsave('./ahs-analysis-noon.pdf', plot=p, width=8, height=6)
-#+END_SRC
-*** Figure 12 (mtk-weights)
-
-#+BEGIN_SRC R :tangle section-5/mtk-weights.R
-#!/usr/bin/Rscript
-library(tidyverse)
-
-df.weights = tibble(
-  Hour = c(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18),
-  Weight = c(0.025, 0.05, 0.05, 0.1, 0.15, 0.25, 0.15, 0.1, 0.05, 0.05, 0.025)
-)
-
-p <- df.weights %>%
-  mutate(Hour = as.factor(Hour)) %>%
-  ggplot(aes(x = Hour, y = Weight)) +
-  geom_col() +
-  geom_text(aes(label = Weight, angle = 45), nudge_y = 0.07) +
-  theme_bw(base_size = 12) +
-    theme(
-      plot.margin = unit(c(0,0,0,0), "cm"),
-      legend.spacing = unit(0, "mm"),
-      panel.grid = element_blank(),
-      legend.position = "none",
-      legend.justification = "left",
-      legend.box.spacing = unit(0, "pt"),
-      legend.box.margin = margin(0,0,0,0),
-      legend.title = element_blank()
-    ) +
-    xlab('Hour') +
-    ylab('Weight') +
-    ylim(0, 0.37)
-
-ggsave('./mtk-weights.pdf', plot = p, width = 4.5, height = 1.5)
-#+END_SRC
-*** Figure 13 (mtk-2016-hourly-8-18)
-
-#+BEGIN_SRC R :tangle section-5/mtk-2016-hourly-8-18.R
-#!/usr/bin/Rscript
-library(tidyverse)
-
-library(tidyverse)
-library(colorspace)
-
-get_col_types <- function() {
-  cols(
-    Dataset = col_character(),
-    Camera_ID = col_character(),
-    Year = col_integer(),
-    Day = col_integer(),
-    Hour = col_integer(),
-    Minute = col_integer(),
-    Metric_Type = col_character(),
-    Considered_Pixels = col_integer(),
-    HSV_Bin = col_integer(),
-    HSV_H = col_double(),
-    HSV_SMean = col_double(),
-    HSV_VMean = col_double(),
-    HSV_SMode = col_double(),
-    HSV_VMode = col_double(),
-    Gcc_Bin = col_integer(),
-    Gcc_Value = col_double(),
-    Gcc_Mean_R = col_double(),
-    Gcc_Mean_G = col_double(),
-    Gcc_Mean_B = col_double()
-  )
-}
-
-get_theme <- function(base_size = 14) {
-  theme_bw(base_size = base_size) +
-  theme(
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(0, "mm"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-}
-
-data <- read_csv(
-  '../../data/mtk.csv.gz',
-  col_types = get_col_types()
-) %>%
-  filter(Camera_ID == 'btp_w') %>%
-  filter(Year == 2016) %>%
-  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
-  slice(1) %>%
-  ungroup %>%
-  # Remove unnecessary columns
-  select(-Dataset, -Camera_ID, -Minute, -Considered_Pixels) %>%
-  # Compute the color codes
-  mutate(
-    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
-    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
-    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
-    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
-  ) %>% 
-  select(
-    -HSV_SMean, -HSV_VMean,
-    -HSV_SMode, -HSV_VMode,
-    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
-  ) %>%
-  # Extract the bin and bin value information
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin,
-      Metric_Type == 'Gcc' ~ Gcc_Bin
-    ),
-    Bin_Value = as.integer(case_when(
-      Metric_Type == 'HSV' ~ HSV_H,
-      Metric_Type == 'Gcc' ~ Gcc_Value
-    ))
-  ) %>%
-  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
-  select(Year, Day, Hour, Metric_Type, Bin, Bin_Value, everything()) %>%
-  # Make it tidy
-  gather(Style, Color, -Year, -Day, -Hour, -Metric_Type, -Bin, -Bin_Value) %>%
-  mutate(Style = gsub('Color.Code.', '', Style)) %>%
-  # Remove useless combinations
-  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
-  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
-  # Create the key
-  mutate(Key = paste(Year, Day, Hour, Bin, Style, sep='_')) %>%
-  mutate(Key = factor(Key, levels=Key)) %>%
-  # Sort the bins
-  arrange(Style, Year, Day, Hour, Bin) %>%
-  # Calculate the cumsums
-  group_by(Style, Year, Day, Hour) %>%
-  arrange(Bin) %>%
-  filter(Bin_Value != 0) %>%
-  mutate(
-    Y.min = cumsum(Bin_Value) - Bin_Value,
-    Y.max = cumsum(Bin_Value)
-  ) %>%
-  ungroup %>%
-  arrange(Style, Year, Day, Hour, Bin)
-
-palette <- data %>% pull(Color)
-names(palette) <- data %>% pull(Key)
-
-p <- data %>%
-  filter(Style %in% c('H', 'Mode')) %>%
-  mutate(Style = paste0('HSV_', Style)) %>%
-  ggplot() +
-    scale_fill_manual(values=palette) +
-    geom_rect(
-      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
-    ) +
-    get_theme(base_size = 18) +
-    xlab('DOY (2016)') +
-    facet_grid(Hour~Style)
-
-ggsave('./mtk-2016-hourly-8-18.pdf', plot = p, width = 8, height = 8)
-#+END_SRC
-*** Figure 14 (mtk-2016-merged)
-
-#+BEGIN_SRC R :tangle section-5/mtk-2016-merged.R
-#!/usr/bin/Rscript
-library(tidyverse)
-library(colorspace)
-
-get_col_types <- function() {
-  cols(
-    Dataset = col_character(),
-    Camera_ID = col_character(),
-    Year = col_integer(),
-    Day = col_integer(),
-    Hour = col_integer(),
-    Minute = col_integer(),
-    Metric_Type = col_character(),
-    Considered_Pixels = col_integer(),
-    HSV_Bin = col_integer(),
-    HSV_H = col_double(),
-    HSV_SMean = col_double(),
-    HSV_VMean = col_double(),
-    HSV_SMode = col_double(),
-    HSV_VMode = col_double(),
-    Gcc_Bin = col_integer(),
-    Gcc_Value = col_double(),
-    Gcc_Mean_R = col_double(),
-    Gcc_Mean_G = col_double(),
-    Gcc_Mean_B = col_double()
-  )
-}
-
-get_theme <- function(base_size = 14) {
-  theme_bw(base_size = base_size) +
-  theme(
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(0, "mm"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-}
-
-df.weights = tibble(
-  Hour = c(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18),
-  Weight = c(0.025, 0.05, 0.05, 0.1, 0.15, 0.25, 0.15, 0.1, 0.05, 0.05, 0.025)
-)
-
-data <- read_csv(
-  '../../data/mtk.csv.gz',
-  col_types = get_col_types()
-) %>%
-  filter(Camera_ID == 'btp_w') %>%
-  filter(Year == 2016) %>%
-  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
-  slice(1) %>%
-  ungroup %>%
-  left_join(df.weights, by=c('Hour')) %>%
-  mutate(
-    HSV_H = Weight * HSV_H,
-    HSV_SMean = Weight * HSV_SMean,
-    HSV_VMean = Weight * HSV_VMean,
-    HSV_SMode = Weight * HSV_SMode,
-    HSV_VMode = Weight * HSV_VMode,
-    Gcc_Value = Weight * Gcc_Value,
-    Gcc_Mean_R = Weight * Gcc_Mean_R,
-    Gcc_Mean_G = Weight * Gcc_Mean_G,
-    Gcc_Mean_B = Weight * Gcc_Mean_B
-  ) %>%
-  group_by(Year, Day, HSV_Bin, Gcc_Bin) %>%
-  summarize(
-    HSV_H = as.integer(sum(HSV_H)),
-    HSV_SMean = sum(HSV_SMean, na.rm = TRUE),
-    HSV_VMean = sum(HSV_VMean, na.rm = TRUE),
-    HSV_SMode = sum(HSV_SMode, na.rm = TRUE),
-    HSV_VMode = sum(HSV_VMode, na.rm = TRUE),
-    Gcc_Value = as.integer(sum(Gcc_Value)),
-    Gcc_Mean_R = sum(Gcc_Mean_R, na.rm = TRUE),
-    Gcc_Mean_G = sum(Gcc_Mean_G, na.rm = TRUE),
-    Gcc_Mean_B = sum(Gcc_Mean_B, na.rm = TRUE)
-  ) %>%
-  ungroup %>%
-    mutate(
-    Metric_Type = case_when(
-      HSV_Bin == -1 ~ 'Gcc',
-      Gcc_Bin == -1 ~ 'HSV'
-    )
-  ) %>%
-  # Compute the color codes
-  mutate(
-    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
-    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
-    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
-    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
-  ) %>% 
-  select(
-    -HSV_SMean, -HSV_VMean,
-    -HSV_SMode, -HSV_VMode,
-    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
-  ) %>%
-  # Extract the bin and bin value information
-  mutate(
-    Bin = case_when(
-      Metric_Type == 'HSV' ~ HSV_Bin,
-      Metric_Type == 'Gcc' ~ Gcc_Bin
-    ),
-    Bin_Value = as.integer(case_when(
-      Metric_Type == 'HSV' ~ HSV_H,
-      Metric_Type == 'Gcc' ~ Gcc_Value
-    ))
-  ) %>%
-  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
-  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
-  # Make it tidy
-  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
-  mutate(Style = gsub('Color.Code.', '', Style)) %>%
-  # Remove useless combinations
-  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
-  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
-  # Create the key
-  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
-  mutate(Key = factor(Key, levels=Key)) %>%
-  # Sort the bins
-  arrange(Style, Year, Day, Bin) %>%
-  # Calculate the cumsums
-  group_by(Style, Year, Day) %>%
-  arrange(Bin) %>%
-  filter(Bin_Value != 0) %>%
-  mutate(
-    Y.min = cumsum(Bin_Value) - Bin_Value,
-    Y.max = cumsum(Bin_Value)
-  ) %>%
-  ungroup %>%
-  arrange(Style, Year, Day, Bin)
-
-# Create the color palette
-palette <- data %>% pull(Color)
-names(palette) <- data %>% pull(Key)
-
-p <- data %>%
-  filter(Style %in% c('H', 'Mode')) %>%
-  mutate(Style = paste0('HSV_', Style)) %>%
-  ggplot() +
-    scale_fill_manual(values=palette) +
-    geom_rect(
-      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
-    ) +
-    get_theme(base_size = 12) +
-    xlab('DOY (2016)') +
-    facet_grid(Year ~ Style)
-
-ggsave('./mtk-2016-merged.pdf', plot = p, width = 8, height = 2)
-#+END_SRC
-
-*** Figure 15 (multiday-weights-3-days)
-#+BEGIN_SRC R :tangle section-5/multiday-weights-3-days.R
-#!/usr/bin/Rscript
-library(tidyverse)
-
-get_weight <- function(day, hour, group) {
-  baseHourlyWeight <- case_when (
-    hour == 8 ~ 0.025,
-    hour == 9 ~ 0.025,
-    hour == 10 ~ 0.05,
-    hour == 11 ~ 0.1,
-    hour == 12 ~ 0.175,
-    hour == 13 ~ 0.25,
-    hour == 14 ~ 0.175,
-    hour == 15 ~ 0.1,
-    hour == 16 ~ 0.05,
-    hour == 17 ~ 0.025,
-    hour == 18 ~ 0.025
-  )
-
-  dayGroupDelta <- group - day
-  weightCoefficient <- case_when(
-    dayGroupDelta == 2 ~ 0.25,
-    dayGroupDelta == 1 ~ 0.35,
-    dayGroupDelta == 0 ~ 0.4
-  )
-  
-  return (weightCoefficient * baseHourlyWeight)
-}
-
-xLabel = 'Day (n-2)                         Day (n-1)                         Day (n)'
-
-p <- expand.grid(Hour = 8:18, Day = 1:3) %>%
-  mutate(Index = row_number()) %>%
-  mutate(Group = 3) %>%
-  mutate(Weight = get_weight(Day, Hour, Group)) %>%
-  ggplot(aes(x = Index, y = Weight)) +
-    geom_col() +
-    theme_bw(base_size = 20) +
-    theme(
-      plot.margin = unit(c(0,0,0,0), "cm"),
-      legend.spacing = unit(0, "mm"),
-      panel.grid = element_blank(),
-      legend.position = "none",
-      legend.justification = "left",
-      legend.box.spacing = unit(0, "pt"),
-      legend.box.margin = margin(0,0,0,0),
-      legend.title = element_blank(),
-      axis.text.x = element_blank()
-    ) +
-    scale_x_continuous(
-      name = xLabel,
-      breaks = c(0.5, 11.5, 22.5, 33.5),
-      limits = c(0.5, 33.5)
-    ) +
-    scale_y_continuous(
-      name = 'Weight',
-      breaks = seq(0, 0.1, 0.025),
-    )
-
-ggsave('multiday-weights-3-days.pdf', plot=p, width=8, height=2)
-#+END_SRC
-
-*** Figure 16 (mtk-2016-multiday-3-day-window)
-
-#+BEGIN_SRC R :tangle section-5/mtk-2016-multiday-3-day-window.R
-#!/usr/bin/Rscript
-library(tidyverse)
-library(colorspace)
-
-get_col_types <- function() {
-  cols(
-    Dataset = col_character(),
-    Camera_ID = col_character(),
-    Year = col_integer(),
-    Day = col_integer(),
-    Hour = col_integer(),
-    Minute = col_integer(),
-    Metric_Type = col_character(),
-    Considered_Pixels = col_integer(),
-    HSV_Bin = col_integer(),
-    HSV_H = col_double(),
-    HSV_SMean = col_double(),
-    HSV_VMean = col_double(),
-    HSV_SMode = col_double(),
-    HSV_VMode = col_double(),
-    Gcc_Bin = col_integer(),
-    Gcc_Value = col_double(),
-    Gcc_Mean_R = col_double(),
-    Gcc_Mean_G = col_double(),
-    Gcc_Mean_B = col_double()
-  )
-}
-
-get_theme <- function(base_size = 14) {
-  theme_bw(base_size = base_size) +
-  theme(
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(0, "mm"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-}
-
-get_weight <- function(day, hour, group) {
-  baseHourlyWeight <- case_when (
-    hour == 8 ~ 0.025,
-    hour == 9 ~ 0.025,
-    hour == 10 ~ 0.05,
-    hour == 11 ~ 0.1,
-    hour == 12 ~ 0.175,
-    hour == 13 ~ 0.25,
-    hour == 14 ~ 0.175,
-    hour == 15 ~ 0.1,
-    hour == 16 ~ 0.05,
-    hour == 17 ~ 0.025,
-    hour == 18 ~ 0.025
-  )
-
-  dayGroupDelta <- group - day
-  weightCoefficient <- case_when(
-    dayGroupDelta == 2 ~ 0.25,
-    dayGroupDelta == 1 ~ 0.35,
-    dayGroupDelta == 0 ~ 0.4
-  )
-  
-  return (weightCoefficient * baseHourlyWeight)
-}
-
-data <- read_csv(
-  '../../data/mtk.csv.gz',
-  col_types = get_col_types()
-) %>%
-  filter(Camera_ID == 'btp_w') %>%
-  filter(Year == 2016) %>%
-  filter(Metric_Type == 'HSV') %>%
-  select(-contains('Gcc'), -contains('Mean'), -contains('Mode')) %>%
-  spread(HSV_Bin, HSV_H) %>%
-  filter(Minute == 0) %>%
-  group_by(Day) %>%
-  filter(n() == 11) %>%
-  ungroup()
-
-base_structure <- expand.grid(Hour = 8:18, Day = 1:365) %>%
-  as_tibble() %>%
-  mutate(Year = 2016) %>%
-  mutate(Minute = 0)
-
-spread_data <- base_structure %>%
-  left_join(data, by=c('Year', 'Day', 'Hour', 'Minute'))
-
-imagesPerGroup = 33
-imagesPerDay = 11
-groupsCount = nrow(data)/imagesPerGroup
-
-groupList <- c()
-indexList <- c()
-for (group in 1:357) {
-  groupStart <- (group * imagesPerDay) - (imagesPerGroup-1)
-  groupEnd <- (group * imagesPerDay)
-  indexList <- c(indexList, groupStart:groupEnd)
-  groupList <- c(groupList, rep(group, times = imagesPerGroup))
-}
-
-skeleton <- tibble(
-  Index = indexList,
-  Group = groupList
-) %>%
-  filter(Index >= 1)
-
-plot.data <- spread_data %>%
-  slice(skeleton %>% pull(Index)) %>%
-  cbind(skeleton) %>%
-  as_tibble %>%
-  mutate(Weight = get_weight(Day, Hour, Group)) %>%
-  gather(
-    HSV_Bin,
-    HSV_H,
-    -Index,
-    -Group, 
-    -Weight,
-    -Dataset, 
-    -Camera_ID, 
-    -Year, 
-    -Day, 
-    -Hour, 
-    -Minute, 
-    -Metric_Type, 
-    -Considered_Pixels
-  ) %>%
-  mutate(HSV_Bin = as.integer(HSV_Bin)) %>%
-  group_by(Group) %>% 
-  filter(sum(Weight) / 360 > 0.99) %>%
-  ungroup %>%
-  mutate(HSV_H = Weight * HSV_H) %>%
-  group_by(Year, Group, HSV_Bin) %>%
-  summarize(
-    HSV_H = as.integer(sum(HSV_H))
-  ) %>%
-  ungroup %>%
-  mutate(Color.Code.H = hex(HSV(HSV_Bin, 1, 1))) %>%
-  rename(Bin = HSV_Bin) %>%
-  rename(Bin_Value = HSV_H) %>%
-  gather(Style, Color, -Group, -Year, -Bin, -Bin_Value) %>%
-  mutate(Style = gsub('Color.Code.', '', Style)) %>%
-  mutate(Key = paste(Year, Group, Bin, Style, sep='_')) %>%
-  mutate(Key = factor(Key, levels=Key)) %>%
-  arrange(Style, Year, Group, Bin) %>%
-  # Calculate the cumsums
-  group_by(Style, Year, Group) %>%
-  arrange(Bin) %>%
-  filter(Bin_Value != 0) %>%
-  mutate(
-    Y.min = cumsum(Bin_Value) - Bin_Value,
-    Y.max = cumsum(Bin_Value)
-  ) %>%
-  ungroup %>%
-  arrange(Style, Year, Group, Bin)
-
-palette <- plot.data %>% pull(Color)
-names(palette) <- plot.data %>% pull(Key)
-
-p <- plot.data %>%
-  ggplot() +
-    scale_fill_manual(values=palette) +
-    geom_rect(
-      aes(xmin=Group, xmax=Group+1, ymin=Y.min, ymax=Y.max, fill=Key)
-    ) +
-    get_theme(base_size = 12) +
-    xlab('DOY') +
-    facet_grid(Year ~ Style)
-
-ggsave('./mtk-2016-multiday-3-day-window.pdf', plot=p, width=8, height=2)
-
-#+END_SRC
-*** Figure 17 (mtk-2016-varying-window-sizes)
-#+BEGIN_SRC R :tangle section-5/mtk-2016-varying-window-sizes.R
+*** Figure 6 (mtk-2016-varying-window-sizes)
+#+BEGIN_SRC R :tangle section-2/mtk-2016-varying-window-sizes.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -2011,8 +1056,426 @@ p <- plot.data %>%
 ggsave('./mtk-2016-varying-window-sizes.pdf', plot=p, width=8, height=6)
 
 #+END_SRC
-*** Figure 18 (multiyear-weights)
-#+BEGIN_SRC R :tangle section-5/multiyear-weights.R
+
+*** Figure 7 (mtk-2016-weighted-hsv-Q)
+
+#+BEGIN_SRC R :tangle section-2/mtk-2016-weighted-hsv-Q.R
+#!/usr/bin/Rscript
+library(tidyverse)
+library(colorspace)
+library(cowplot)
+
+get_col_types <- function() {
+  cols(
+    Dataset = col_character(),
+    Camera_ID = col_character(),
+    Year = col_integer(),
+    Day = col_integer(),
+    Hour = col_integer(),
+    Minute = col_integer(),
+    Metric_Type = col_character(),
+    Considered_Pixels = col_integer(),
+    HSV_Bin = col_integer(),
+    HSV_H = col_double(),
+    HSV_SMean = col_double(),
+    HSV_VMean = col_double(),
+    HSV_SMode = col_double(),
+    HSV_VMode = col_double(),
+    Gcc_Bin = col_integer(),
+    Gcc_Value = col_double(),
+    Gcc_Mean_R = col_double(),
+    Gcc_Mean_G = col_double(),
+    Gcc_Mean_B = col_double()
+  )
+}
+
+get_theme <- function(base_size = 14) {
+  theme_bw(base_size = base_size) +
+  theme(
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(0, "mm"),
+    panel.grid = element_blank(),
+    legend.position = "none",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+}
+
+df.weights <- tibble(
+  Hour = c(9, 10, 11, 12, 13, 14, 15),
+  Weight = c(0.05, 0.05, 0.1, 0.3, 0.3, 0.15, 0.05)
+)
+
+relevant_hours <- df.weights %>% filter(Weight != 0) %>% pull(Hour)
+
+hourly_data <- read_csv(
+  '../../data/mtk.csv.gz',
+  col_types = get_col_types()
+) %>%
+  filter(Year == 2016) %>%
+  filter(Metric_Type == 'HSV') %>% 
+  select(-contains('gcc')) %>%
+  filter(Hour %in% relevant_hours) %>%
+  group_by(Year, Day, Hour, HSV_Bin) %>%
+  slice(1) %>%
+  ungroup %>%
+  left_join(df.weights, by=c('Hour'))
+
+
+weighted_data <- hourly_data %>%
+  mutate(HSV_H = Weight * HSV_H) %>%
+  mutate(HSV_SMean = Weight * HSV_SMean) %>%
+  mutate(HSV_VMean = Weight * HSV_VMean) %>%
+  mutate(HSV_SMode = Weight * HSV_SMode) %>%
+  mutate(HSV_VMode = Weight * HSV_VMode) %>%
+  group_by(Day, HSV_Bin, Considered_Pixels) %>%
+  summarize(
+    HSV_H = as.integer(sum(HSV_H)),
+    HSV_SMean = sum(HSV_SMean, na.rm = TRUE),
+    HSV_VMean = sum(HSV_VMean, na.rm = TRUE),
+    HSV_SMode = sum(HSV_SMode, na.rm = TRUE),
+    HSV_VMode = sum(HSV_VMode, na.rm = TRUE)
+  ) %>%
+  ungroup
+
+hourly_histograms <- hourly_data %>%
+  select(Year, Day, Hour, Metric_Type, HSV_Bin, HSV_H) %>%
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin
+    ),
+    Bin_Value = case_when(
+      Metric_Type == 'HSV' ~ HSV_H
+    )
+  ) %>%
+  select(-HSV_Bin, -HSV_H)
+
+weighted_histogram <- weighted_data %>%
+  mutate(Year = 2016) %>%
+  mutate(Metric_Type = 'HSV') %>%
+  select(Year, Day, Metric_Type, HSV_Bin, HSV_H) %>%
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin
+    ),
+    Bin_Value = case_when(
+      Metric_Type == 'HSV' ~ HSV_H
+    )
+  ) %>%
+  select(-HSV_Bin, -HSV_H)
+
+a <- hourly_histograms %>%
+  select(Year, Day, Hour, Metric_Type, Bin, Bin_Value)
+b <- weighted_histogram %>%
+  select(Year, Day, Metric_Type, Bin, Bin_Value)
+
+a <- a %>% filter(Day %in% b$Day)
+b <- b %>% filter(Day %in% a$Day)
+
+df.EMD <- a %>%
+  left_join(b, by=c('Year', 'Day', 'Metric_Type', 'Bin')) %>%
+  rename(
+    P = Bin_Value.x,
+    Q = Bin_Value.y
+  ) %>%
+  group_by(Year, Day, Hour, Metric_Type) %>%
+  mutate(`P_i-Q_i` = lag(lead(P-Q))) %>%
+  mutate(`EMD_i` = ifelse(is.na(`P_i-Q_i`), 0, `P_i-Q_i`)) %>%
+  mutate(`EMD_i` = cumsum(`EMD_i`)) %>%
+  summarize(Distance = sum(abs(`EMD_i`))) %>%
+  ungroup %>%
+  arrange(Year, Day, Metric_Type)
+
+df.EMD.weighted <- df.EMD %>%
+  left_join(df.weights, by=c('Hour')) %>%
+  mutate(Weighted_Distance = Distance * Weight) %>%
+  group_by(Year, Day, Metric_Type) %>%
+  summarize(Q = sum(Weighted_Distance))
+
+uncertainty_by_style <- df.EMD.weighted %>%
+  mutate(
+    Q = case_when(
+      Metric_Type == 'Gcc' ~ Q/100,
+      Metric_Type == 'HSV' ~ Q/360
+    )
+  )
+
+hsv_weighted <- weighted_data %>%
+  mutate(Year = 2016) %>%
+  mutate(Metric_Type = 'HSV') %>%
+  filter(Year == 2016) %>%
+  filter(Metric_Type == 'HSV')
+
+hsv_cpm_for_plot <- hsv_weighted %>%
+  # Compute the color codes
+  mutate(
+    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
+    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
+    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
+    #Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
+  ) %>% 
+  select(
+    -HSV_SMean, -HSV_VMean,
+    -HSV_SMode, -HSV_VMode,
+    #-Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
+  ) %>%
+  # Extract the bin and bin value information
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin
+      #Metric_Type == 'Gcc' ~ Gcc_Bin
+    ),
+    Bin_Value = as.integer(case_when(
+      Metric_Type == 'HSV' ~ HSV_H
+      #Metric_Type == 'Gcc' ~ Gcc_Value
+    ))
+  ) %>%
+  select(-HSV_Bin, -HSV_H) %>%
+  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
+  # Make it tidy
+  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
+  mutate(Style = gsub('Color.Code.', '', Style)) %>%
+  # Remove useless combinations
+  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
+  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
+  # Create the key
+  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
+  mutate(Key = factor(Key, levels=Key)) %>%
+  # Sort the bins
+  arrange(Style, Year, Day, Bin) %>%
+  # Calculate the cumsums
+  group_by(Style, Year, Day) %>%
+  arrange(Bin) %>%
+  filter(Bin_Value != 0) %>%
+  mutate(
+    Y.min = cumsum(Bin_Value) - Bin_Value,
+    Y.max = cumsum(Bin_Value)
+  ) %>%
+  ungroup %>%
+  arrange(Style, Year, Day, Bin)
+
+palette <- hsv_cpm_for_plot %>% pull(Color)
+names(palette) <- hsv_cpm_for_plot %>% pull(Key)
+
+hsv_cpm_plot <- hsv_cpm_for_plot %>%
+  filter(Style == 'H') %>%
+  ggplot() +
+    scale_fill_manual(values=palette) +
+    geom_rect(
+      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
+    ) +
+    get_theme(base_size = 12) +
+    theme(
+      plot.margin = unit(c(0,0,0,0), 'mm'),
+    )
+    scale_x_continuous(
+      name = 'DOY (2016)',
+      breaks = c(0, 50, 100, 150, 200, 250, 300, 350)
+    )
+
+quality_plot <- uncertainty_by_style %>%
+  filter(Year == 2016) %>%
+  filter(Metric_Type == 'HSV') %>%
+  ungroup %>%
+  mutate(Q = Q/max(Q)) %>%
+  ggplot(aes(x = Day, y = Q)) +
+    geom_col(width = 1) +
+    theme_bw() +
+    theme(
+      plot.margin = unit(c(1,0,0,0), 'mm'),
+      panel.grid = element_blank(),
+      legend.position = 'none',
+      legend.spacing = unit(0, 'mm'),
+      legend.box.spacing = unit(0, 'pt'),
+      legend.box.margin = margin(0,0,0,0),
+      axis.title.x = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.y = element_text(size=10),
+    ) +
+    ylab("Uncert.\nLevel")
+
+p <- plot_grid(
+  quality_plot,
+  hsv_cpm_plot, 
+  nrow=2,
+  ncol = 1,
+  align='vh',
+  rel_heights=c(1, 3)
+)
+
+ggsave('./mtk-2016-weighted-hsv-Q.pdf', plot=p, width=8, height=3)
+#+END_SRC
+
+** Section 3
+*** Figure 9 (ahs-analysis-noon)
+
+#+BEGIN_SRC R :tangle section-3/ahs-analysis-noon.R
+#!/usr/bin/Rscript
+library(tidyverse)
+library(colorspace)
+
+get_col_types <- function() {
+  cols(
+    Dataset = col_character(),
+    Camera_ID = col_character(),
+    Year = col_integer(),
+    Day = col_integer(),
+    Hour = col_integer(),
+    Minute = col_integer(),
+    Metric_Type = col_character(),
+    Considered_Pixels = col_integer(),
+    HSV_Bin = col_integer(),
+    HSV_H = col_double(),
+    HSV_SMean = col_double(),
+    HSV_VMean = col_double(),
+    HSV_SMode = col_double(),
+    HSV_VMode = col_double(),
+    Gcc_Bin = col_integer(),
+    Gcc_Value = col_double(),
+    Gcc_Mean_R = col_double(),
+    Gcc_Mean_G = col_double(),
+    Gcc_Mean_B = col_double()
+  )
+}
+
+get_theme <- function(base_size = 14) {
+  theme_bw(base_size = base_size) +
+  theme(
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(0, "mm"),
+    panel.grid = element_blank(),
+    legend.position = "none",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+}
+
+data <- read_csv(
+  '../../data/ahs.csv.gz',
+  col_types = get_col_types()
+) %>%
+  filter(Hour == 12) %>%
+  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
+  slice(1) %>%
+  ungroup %>%
+  # Remove unnecessary columns
+  select(-Dataset, -Camera_ID, -Hour, -Minute, -Considered_Pixels) %>%
+  # Compute the color codes
+  mutate(
+    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
+    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
+    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
+    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
+  ) %>% 
+  select(
+    -HSV_SMean, -HSV_VMean,
+    -HSV_SMode, -HSV_VMode,
+    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
+  ) %>%
+  # Extract the bin and bin value information
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin,
+      Metric_Type == 'Gcc' ~ Gcc_Bin
+    ),
+    Bin_Value = as.integer(case_when(
+      Metric_Type == 'HSV' ~ HSV_H,
+      Metric_Type == 'Gcc' ~ Gcc_Value
+    ))
+  ) %>%
+  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
+  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
+  # Make it tidy
+  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
+  mutate(Style = gsub('Color.Code.', '', Style)) %>%
+  # Remove useless combinations
+  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
+  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
+  # Create the key
+  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
+  mutate(Key = factor(Key, levels=Key)) %>%
+  # Sort the bins
+  arrange(Style, Year, Day, Bin) %>%
+  # Calculate the cumsums
+  group_by(Style, Year, Day) %>%
+  arrange(Bin) %>%
+  filter(Bin_Value != 0) %>%
+  mutate(
+    Y.min = cumsum(Bin_Value) - Bin_Value,
+    Y.max = cumsum(Bin_Value)
+  ) %>%
+  ungroup %>%
+  arrange(Style, Year, Day, Bin)
+
+palette <- data %>% pull(Color)
+names(palette) <- data %>% pull(Key)
+
+p <- data %>%
+  filter(Year != 2017) %>%
+  mutate(
+    Style = case_when(
+      Style == 'Gcc' ~ 'Gcc_Mean',
+      TRUE ~ paste0('HSV_', Style)
+    )
+  ) %>%
+  ggplot() +
+    scale_fill_manual(values=palette) +
+    geom_rect(
+      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
+    ) +
+    get_theme(base_size = 12) +
+    scale_x_continuous(name = 'DOY') +
+    facet_grid(Year~Style)
+
+ggsave('./ahs-analysis-noon.pdf', plot=p, width=8, height=6)
+#+END_SRC
+*** Figure 10a (mtk-weights)
+
+#+BEGIN_SRC R :tangle section-3/mtk-weights.R
+#!/usr/bin/Rscript
+library(tidyverse)
+
+df.weights = tibble(
+  Hour = c(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18),
+  Weight = c(0.025, 0.05, 0.05, 0.1, 0.15, 0.25, 0.15, 0.1, 0.05, 0.05, 0.025)
+)
+
+p <- df.weights %>%
+  mutate(Hour = as.factor(Hour)) %>%
+  ggplot(aes(x = Hour, y = Weight)) +
+  geom_col() +
+  geom_text(aes(label = Weight, angle = 90), nudge_y = 0.08) +
+  theme_bw(base_size = 12) +
+    theme(
+      plot.margin = unit(c(0,0,0,0), "cm"),
+      legend.spacing = unit(0, "mm"),
+      panel.grid = element_blank(),
+      legend.position = "none",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.box.margin = margin(0,0,0,0),
+      legend.title = element_blank()
+    ) +
+    xlab('Hour') +
+    ylab('Weight') +
+    ylim(0, 0.37)
+
+ggsave('./mtk-weights.pdf', plot = p, width = 4.5, height = 1.5)
+#+END_SRC
+
+*** Figure 10b (multiyear-weights)
+#+BEGIN_SRC R :tangle section-3/multiyear-weights.R
 #!/usr/bin/Rscript
 library(tidyverse)
 
@@ -2043,7 +1506,7 @@ p <- expand.grid(Hour = 10:14, Day = 1:3) %>%
   mutate(Weight = get_weight(Day, Hour, Group)) %>%
   ggplot(aes(x = Index, y = Weight)) +
     geom_col() +
-    theme_bw(base_size = 14) +
+    theme_bw(base_size = 12) +
     theme(
       plot.margin = unit(c(0,0,0,0), "cm"),
       legend.spacing = unit(0, "mm"),
@@ -2066,10 +1529,412 @@ p <- expand.grid(Hour = 10:14, Day = 1:3) %>%
       limits = c(0, 0.135)
     )
 
-ggsave('multiyear-weights.pdf', plot=p, width=8, height=2)
+ggsave('multiyear-weights.pdf', plot=p, width=6, height=2)
 #+END_SRC
-*** Figure 19 (mtk-2016-multiday-manyyears)
-#+BEGIN_SRC R :tangle section-5/mtk-2016-multiday-manyyears.R
+
+*** Figure 11 (mtk-2016-hourly-8-18)
+
+#+BEGIN_SRC R :tangle section-3/mtk-2016-hourly-8-18.R
+#!/usr/bin/Rscript
+library(tidyverse)
+
+library(tidyverse)
+library(colorspace)
+
+get_col_types <- function() {
+  cols(
+    Dataset = col_character(),
+    Camera_ID = col_character(),
+    Year = col_integer(),
+    Day = col_integer(),
+    Hour = col_integer(),
+    Minute = col_integer(),
+    Metric_Type = col_character(),
+    Considered_Pixels = col_integer(),
+    HSV_Bin = col_integer(),
+    HSV_H = col_double(),
+    HSV_SMean = col_double(),
+    HSV_VMean = col_double(),
+    HSV_SMode = col_double(),
+    HSV_VMode = col_double(),
+    Gcc_Bin = col_integer(),
+    Gcc_Value = col_double(),
+    Gcc_Mean_R = col_double(),
+    Gcc_Mean_G = col_double(),
+    Gcc_Mean_B = col_double()
+  )
+}
+
+get_theme <- function(base_size = 14) {
+  theme_bw(base_size = base_size) +
+  theme(
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(0, "mm"),
+    panel.grid = element_blank(),
+    legend.position = "none",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+}
+
+data <- read_csv(
+  '../../data/mtk.csv.gz',
+  col_types = get_col_types()
+) %>%
+  filter(Camera_ID == 'btp_w') %>%
+  filter(Year == 2016) %>%
+  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
+  slice(1) %>%
+  ungroup %>%
+  # Remove unnecessary columns
+  select(-Dataset, -Camera_ID, -Minute, -Considered_Pixels) %>%
+  # Compute the color codes
+  mutate(
+    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
+    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
+    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
+    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
+  ) %>% 
+  select(
+    -HSV_SMean, -HSV_VMean,
+    -HSV_SMode, -HSV_VMode,
+    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
+  ) %>%
+  # Extract the bin and bin value information
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin,
+      Metric_Type == 'Gcc' ~ Gcc_Bin
+    ),
+    Bin_Value = as.integer(case_when(
+      Metric_Type == 'HSV' ~ HSV_H,
+      Metric_Type == 'Gcc' ~ Gcc_Value
+    ))
+  ) %>%
+  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
+  select(Year, Day, Hour, Metric_Type, Bin, Bin_Value, everything()) %>%
+  # Make it tidy
+  gather(Style, Color, -Year, -Day, -Hour, -Metric_Type, -Bin, -Bin_Value) %>%
+  mutate(Style = gsub('Color.Code.', '', Style)) %>%
+  # Remove useless combinations
+  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
+  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
+  # Create the key
+  mutate(Key = paste(Year, Day, Hour, Bin, Style, sep='_')) %>%
+  mutate(Key = factor(Key, levels=Key)) %>%
+  # Sort the bins
+  arrange(Style, Year, Day, Hour, Bin) %>%
+  # Calculate the cumsums
+  group_by(Style, Year, Day, Hour) %>%
+  arrange(Bin) %>%
+  filter(Bin_Value != 0) %>%
+  mutate(
+    Y.min = cumsum(Bin_Value) - Bin_Value,
+    Y.max = cumsum(Bin_Value)
+  ) %>%
+  ungroup %>%
+  arrange(Style, Year, Day, Hour, Bin)
+
+palette <- data %>% pull(Color)
+names(palette) <- data %>% pull(Key)
+
+p <- data %>%
+  filter(Style %in% c('H', 'Mode')) %>%
+  mutate(Style = paste0('HSV_', Style)) %>%
+  ggplot() +
+    scale_fill_manual(values=palette) +
+    geom_rect(
+      aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
+    ) +
+    get_theme(base_size = 18) +
+    xlab('DOY (2016)') +
+    facet_grid(Hour~Style)
+
+ggsave('./mtk-2016-hourly-8-18.pdf', plot = p, width = 8, height = 8)
+#+END_SRC
+
+*** Figure 12 (mtk-2016-weighted-hsv-h_mode_merged_with_Q)
+
+#+BEGIN_SRC R :tangle section-3/mtk-2016-weighted-hsv-h_mode_merged_with_Q.R
+#!/usr/bin/Rscript
+
+#!/usr/bin/Rscript
+library(tidyverse)
+library(colorspace)
+library(cowplot)
+library(patchwork)
+
+get_col_types <- function() {
+  cols(
+    Dataset = col_character(),
+    Camera_ID = col_character(),
+    Year = col_integer(),
+    Day = col_integer(),
+    Hour = col_integer(),
+    Minute = col_integer(),
+    Metric_Type = col_character(),
+    Considered_Pixels = col_integer(),
+    HSV_Bin = col_integer(),
+    HSV_H = col_double(),
+    HSV_SMean = col_double(),
+    HSV_VMean = col_double(),
+    HSV_SMode = col_double(),
+    HSV_VMode = col_double(),
+    Gcc_Bin = col_integer(),
+    Gcc_Value = col_double(),
+    Gcc_Mean_R = col_double(),
+    Gcc_Mean_G = col_double(),
+    Gcc_Mean_B = col_double()
+  )
+}
+
+get_theme <- function(base_size = 14) {
+  theme_bw(base_size = base_size) +
+    theme(
+      plot.margin = unit(c(0,0,0,0), "cm"),
+      legend.spacing = unit(0, "mm"),
+      panel.grid = element_blank(),
+      legend.position = "none",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.box.margin = margin(0,0,0,0),
+      legend.title = element_blank(),
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+}
+
+df.weights = tibble(
+  Hour = c(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18),
+  Weight = c(0.025, 0.05, 0.05, 0.1, 0.15, 0.25, 0.15, 0.1, 0.05, 0.05, 0.025)
+)
+
+data <- read_csv(
+  '../../data/mtk.csv.gz',
+  col_types = get_col_types()
+) %>%
+  filter(Year == 2016) %>%
+  filter(Camera_ID == 'btp_w') %>%
+  group_by(Year, Day, Hour, HSV_Bin, Gcc_Bin) %>%
+  slice(1) %>%
+  ungroup %>%
+  left_join(df.weights, by=c('Hour'))
+
+weighted_data <- data %>%
+  mutate(
+    HSV_H = Weight * HSV_H,
+    HSV_SMean = Weight * HSV_SMean,
+    HSV_VMean = Weight * HSV_VMean,
+    HSV_SMode = Weight * HSV_SMode,
+    HSV_VMode = Weight * HSV_VMode,
+    Gcc_Value = Weight * Gcc_Value,
+    Gcc_Mean_R = Weight * Gcc_Mean_R,
+    Gcc_Mean_G = Weight * Gcc_Mean_G,
+    Gcc_Mean_B = Weight * Gcc_Mean_B
+  ) %>%
+  group_by(Year, Day, HSV_Bin, Gcc_Bin) %>%
+  summarize(
+    HSV_H = as.integer(sum(HSV_H)),
+    HSV_SMean = sum(HSV_SMean, na.rm = TRUE),
+    HSV_VMean = sum(HSV_VMean, na.rm = TRUE),
+    HSV_SMode = sum(HSV_SMode, na.rm = TRUE),
+    HSV_VMode = sum(HSV_VMode, na.rm = TRUE),
+    Gcc_Value = as.integer(sum(Gcc_Value)),
+    Gcc_Mean_R = sum(Gcc_Mean_R, na.rm = TRUE),
+    Gcc_Mean_G = sum(Gcc_Mean_G, na.rm = TRUE),
+    Gcc_Mean_B = sum(Gcc_Mean_B, na.rm = TRUE)
+  ) %>%
+  ungroup %>%
+  mutate(
+    Metric_Type = case_when(
+      HSV_Bin == -1 ~ 'Gcc',
+      Gcc_Bin == -1 ~ 'HSV'
+    )
+  ) %>%
+  select(Year, Day, Metric_Type, contains('HSV'), contains('Gcc'), everything())
+
+hourly_histograms <- data %>%
+  select(Year, Day, Hour, Metric_Type, HSV_Bin, HSV_H, Gcc_Bin, Gcc_Value) %>%
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'Gcc' ~ Gcc_Bin,
+      Metric_Type == 'HSV' ~ HSV_Bin
+    ),
+    Bin_Value = case_when(
+      Metric_Type == 'Gcc' ~ Gcc_Value,
+      Metric_Type == 'HSV' ~ HSV_H
+    )
+  ) %>%
+  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value)
+  
+weighted_histograms <- weighted_data %>%
+  select(Year, Day, Metric_Type, HSV_Bin, HSV_H, Gcc_Bin, Gcc_Value) %>%
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'Gcc' ~ Gcc_Bin,
+      Metric_Type == 'HSV' ~ HSV_Bin
+    ),
+    Bin_Value = case_when(
+      Metric_Type == 'Gcc' ~ Gcc_Value,
+      Metric_Type == 'HSV' ~ HSV_H
+    )
+  ) %>%
+  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
+  filter(Metric_Type == 'HSV')
+
+a <- hourly_histograms %>%
+  select(Year, Day, Hour, Metric_Type, Bin, Bin_Value)
+b <- weighted_histograms %>%
+  select(Year, Day, Metric_Type, Bin, Bin_Value)
+
+a <- a %>% filter(Day %in% b$Day)
+b <- b %>% filter(Day %in% a$Day)
+
+df.EMD.weighted <- a %>%
+  left_join(b, by=c('Year', 'Day', 'Metric_Type', 'Bin')) %>%
+  rename(P = Bin_Value.x, Q = Bin_Value.y) %>%
+  group_by(Year, Day, Hour, Metric_Type) %>%
+  mutate(`P_i-Q_i` = lag(lead(P-Q))) %>%
+  mutate(`EMD_i` = ifelse(is.na(`P_i-Q_i`), 0, `P_i-Q_i`)) %>%
+  mutate(`EMD_i` = cumsum(`EMD_i`)) %>%
+  summarize(Distance = sum(abs(`EMD_i`))) %>%
+  ungroup %>%
+  arrange(Year, Day, Metric_Type) %>%
+  left_join(df.weights, by=c('Hour')) %>%
+  mutate(Weighted_Distance = Distance * Weight) %>%
+  group_by(Year, Day, Metric_Type) %>%
+  summarize(Q = sum(Weighted_Distance))
+
+uncertainty_by_style <- df.EMD.weighted %>%
+  mutate(
+    Q = case_when(
+      Metric_Type == 'Gcc' ~ Q/100,
+      Metric_Type == 'HSV' ~ Q/360
+    )
+  )
+
+hsv_cpm_for_plot <- weighted_data %>%
+  # Compute the color codes
+  mutate(
+    Color.Code.H = hex(HSV(HSV_Bin, 1, 1)),
+    Color.Code.Mean = hex(HSV(HSV_Bin, HSV_SMean, HSV_VMean)),
+    Color.Code.Mode = hex(HSV(HSV_Bin, HSV_SMode, HSV_VMode)),
+    Color.Code.Gcc = hex(RGB(Gcc_Mean_R, Gcc_Mean_G, Gcc_Mean_B))
+  ) %>% 
+  select(
+    -HSV_SMean, -HSV_VMean,
+    -HSV_SMode, -HSV_VMode,
+    -Gcc_Mean_R, -Gcc_Mean_G, -Gcc_Mean_B
+  ) %>%
+  # Extract the bin and bin value information
+  mutate(
+    Bin = case_when(
+      Metric_Type == 'HSV' ~ HSV_Bin,
+      Metric_Type == 'Gcc' ~ Gcc_Bin
+    ),
+    Bin_Value = as.integer(case_when(
+      Metric_Type == 'HSV' ~ HSV_H,
+      Metric_Type == 'Gcc' ~ Gcc_Value
+    ))
+  ) %>%
+  select(-HSV_Bin, -HSV_H, -Gcc_Bin, -Gcc_Value) %>%
+  select(Year, Day, Metric_Type, Bin, Bin_Value, everything()) %>%
+  # Make it tidy
+  gather(Style, Color, -Year, -Day, -Metric_Type, -Bin, -Bin_Value) %>%
+  mutate(Style = gsub('Color.Code.', '', Style)) %>%
+  # Remove useless combinations
+  filter(!(Metric_Type == 'Gcc' & Style %in% c('H', 'Mean', 'Mode'))) %>%
+  filter(!(Metric_Type == 'HSV' & Style == 'Gcc')) %>%
+  # Create the key
+  mutate(Key = paste(Year, Day, Bin, Style, sep='_')) %>%
+  mutate(Key = factor(Key, levels=Key)) %>%
+  # Sort the bins
+  arrange(Style, Year, Day, Bin) %>%
+  # Calculate the cumsums
+  group_by(Style, Year, Day) %>%
+  arrange(Bin) %>%
+  filter(Bin_Value != 0) %>%
+  mutate(
+    Y.min = cumsum(Bin_Value) - Bin_Value,
+    Y.max = cumsum(Bin_Value)
+  ) %>%
+  ungroup %>%
+  arrange(Style, Year, Day, Bin) %>%
+  select(Style, Year, Day, Bin, everything())
+
+# Create the color palette
+palette <- hsv_cpm_for_plot %>% pull(Color)
+names(palette) <- hsv_cpm_for_plot %>% pull(Key)
+
+quality_plot <- uncertainty_by_style %>%
+  filter(Year == 2016) %>%
+  filter(Metric_Type == 'HSV') %>%
+  ungroup %>%
+  mutate(Q = Q/max(Q)) %>%
+  ggplot(aes(x = Day, y = Q)) +
+  geom_col(width = 1) +
+  theme_bw() +
+  theme(
+    plot.margin = unit(c(0,0,0,0), 'mm'),
+    panel.grid = element_blank(),
+    legend.position = 'none',
+    legend.spacing = unit(0, 'mm'),
+    legend.box.spacing = unit(0, 'pt'),
+    legend.box.margin = margin(0,0,0,0),
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_text(size=10),
+  ) +
+  ylab("Uncert.\nLevel")
+
+mtk.2016.merged.hsv.h <- hsv_cpm_for_plot %>%
+  filter(Style == "H") %>%
+  mutate(Style = paste0('HSV_', Style)) %>%
+  ggplot() +
+  scale_fill_manual(values=palette) +
+  geom_rect(
+    aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
+  ) +
+  get_theme(base_size = 12) +
+  theme(plot.margin = unit(c(0,0,0,0), "cm")) +
+  facet_wrap(~Style) +
+  xlab('DOY (2016)')
+
+mtk.2016.merged.hsv.mode <-  hsv_cpm_for_plot%>%
+  filter(Style == "Mode") %>%
+  mutate(Style = paste0('HSV_', Style)) %>%
+  ggplot() +
+  scale_fill_manual(values=palette) +
+  geom_rect(
+    aes(xmin=Day, xmax=Day+1, ymin=Y.min, ymax=Y.max, fill=Key)
+  ) +
+  get_theme(base_size = 12) +
+  xlab('DOY (2016)') +
+  facet_wrap( ~ Style)
+
+quality_plot_right <- quality_plot + theme(
+  axis.title.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.text.y = element_blank()
+)
+
+plot <- (quality_plot + quality_plot_right) /
+  (mtk.2016.merged.hsv.h + mtk.2016.merged.hsv.mode) +
+  plot_layout(heights = c(1, 1.8))
+
+ggsave('./mtk-2016-weighted-hsv-h_mode_merged_with_Q.pdf', plot=plot, width=8, height=2.5)
+
+#+END_SRC
+
+*** Figure 13 (mtk-2016-multiday-manyyears)
+#+BEGIN_SRC R :tangle section-3/mtk-2016-multiday-manyyears.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -2286,8 +2151,9 @@ p <- data_for_plot %>%
 
 ggsave('mtk-2016-multiday-manyyears.pdf', plot=p, width=8, height=8)
 #+END_SRC
-*** Figure 20 (tky-2011-weighted-hsv-Q)
-#+BEGIN_SRC R :tangle section-5/tky-2011-weighted-hsv-Q.R
+
+*** Figure 14 (tky-2011-weighted-hsv-Q)
+#+BEGIN_SRC R :tangle section-3/tky-2011-weighted-hsv-Q.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -2562,8 +2428,9 @@ p <- plot_grid(
 
 ggsave('tky-2011-weighted-hsv-Q.pdf', plot=p, width=8, height=4)
 #+END_SRC
-*** Figure 21 (tky-2011-145-hourly)
-#+BEGIN_SRC R :tangle section-5/tky-2011-145-hourly.R
+
+*** Figure 15a (tky-2011-145-hourly)
+#+BEGIN_SRC R :tangle section-3/tky-2011-145-hourly.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -2686,8 +2553,9 @@ p <- data %>%
 
 ggsave('tky-2011-145-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
-*** Figure 22 (tky-2011-324-hourly)
-#+BEGIN_SRC R :tangle section-5/tky-2011-324-hourly.R
+
+*** Figure 15b (tky-2011-324-hourly)
+#+BEGIN_SRC R :tangle section-3/tky-2011-324-hourly.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -2810,8 +2678,9 @@ p <- data %>%
 
 ggsave('tky-2011-324-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
-*** Figure 23 (tky-2011-weighted-gcc-Q)
-#+BEGIN_SRC R :tangle section-5/tky-2011-weighted-gcc-Q.R
+
+*** Figure 16 (tky-2011-weighted-gcc-Q)
+#+BEGIN_SRC R :tangle section-3/tky-2011-weighted-gcc-Q.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -3086,13 +2955,12 @@ p <- plot_grid(
 
 ggsave('tky-2011-weighted-gcc-Q.pdf', plot=p, width=8, height=4)
 #+END_SRC
-*** Figure 24 (tky-100-to-175-gcc-distribution)
-#+BEGIN_SRC R :tangle section-5/tky-100-to-175-gcc-distribution.R
+*** Figure 17a (tky-100-to-175-gcc-distribution)
+#+BEGIN_SRC R :tangle section-3/tky-100-to-175-gcc-distribution.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
 library(cowplot)
-library(latex2exp)
 
 get_col_types <- function() {
   cols(
@@ -3219,14 +3087,14 @@ p <- data %>%
     ) +
     xlim(0, 100) +
     facet_wrap(~ Day, ncol = 1, scales = 'free_y') +
-    scale_x_continuous(name = TeX("$g_{cc}$ Bin"), breaks = seq(0, 100, 10)) +
+    scale_x_continuous(name = "Gcc Bin", breaks = seq(0, 100, 10)) +
     ylab('Normalized size of bins')
 
 
 ggsave('tky-100-to-175-gcc-distribution.pdf', plot=p, width=6, height=3)
 #+END_SRC
-*** Figure 25 (tky-2011-162-gcc-hourly)
-#+BEGIN_SRC R :tangle section-5/tky-2011-162-gcc-hourly.R
+*** Figure 17b (tky-2011-162-gcc-hourly)
+#+BEGIN_SRC R :tangle section-3/tky-2011-162-gcc-hourly.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
@@ -3347,8 +3215,8 @@ p <- data %>%
 
 ggsave('tky-2011-162-gcc-hourly.pdf', plot=p, width=6, height=6)
 #+END_SRC
-*** Figure 26 (performance-analysis)
-#+BEGIN_SRC R :tangle section-5/performance-analysis.R
+*** Figure 18 (performance-analysis)
+#+BEGIN_SRC R :tangle section-3/performance-analysis.R
 #!/usr/bin/Rscript
 library(tidyverse)
 library(colorspace)
